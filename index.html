@@ -1,3 +1,8 @@
+Here is the complete, corrected codebase. This version integrates the **AI Chatbot with Fuzzy Matching**, **Image Fallback System**, **40 Products**, and ensures **Quick Reply buttons work**.
+
+Copy the entire block below into your `index.html`.
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -204,8 +209,8 @@
 <body>
 
   <div class="top-bar">
-    <div>📍 Encuentra tu tienda &nbsp;|&nbsp;  Envío gratis en compras &gt; $199.900 &nbsp;|&nbsp; <a href="#" data-nav="servicios">Servicios</a></div>
-    <div> Línea nacional: 320 88 999 33</div>
+    <div>📍 Encuentra tu tienda &nbsp;|&nbsp; 🚚 Envío gratis en compras &gt; $199.900 &nbsp;|&nbsp; <a href="#" data-nav="servicios">Servicios</a></div>
+    <div>📞 Línea nacional: 320 88 999 33</div>
   </div>
 
   <header>
@@ -216,7 +221,7 @@
         <button data-action="search">Buscar</button>
       </div>
       <div class="header-actions">
-        <div class="header-action" data-nav="account"><div class="icon"></div><div class="label">Mi Cuenta</div></div>
+        <div class="header-action" data-nav="account"><div class="icon">👤</div><div class="label">Mi Cuenta</div></div>
         <div class="header-action" data-nav="orders"><div class="icon">📋</div><div class="label">Pedidos</div></div>
         <div class="header-action cart-badge" data-nav="cart"><div class="icon"></div><div class="label">Carrito</div><div class="count" id="cartCount">0</div></div>
       </div>
@@ -282,8 +287,8 @@
           <div class="detail-savings" id="prodSavings">Ahorras: $140.000</div>
           <div class="detail-stock" id="prodStock"> 18 disponibles</div>
           <div class="detail-actions">
-            <button class="btn-primary" id="prodAddCart"> Agregar al carrito</button>
-            <button class="btn-secondary" id="prodBuyNow"> Comprar ahora</button>
+            <button class="btn-primary" id="prodAddCart">🛒 Agregar al carrito</button>
+            <button class="btn-secondary" id="prodBuyNow">⚡ Comprar ahora</button>
           </div>
           <div class="detail-specs">
             <h3>Especificaciones</h3>
@@ -386,7 +391,7 @@
           <button class="btn-add" data-nav="home">Solicitar cotización</button>
         </div>
         <div class="prod-card" style="padding:2rem;text-align:center">
-          <div style="font-size:3rem;margin-bottom:1rem"></div>
+          <div style="font-size:3rem;margin-bottom:1rem">🔧</div>
           <div class="prod-name">Alquiler de Herramientas</div>
           <div class="prod-brand" style="margin-bottom:1rem">Por horas, días o semanas</div>
           <button class="btn-add" data-nav="home">Ver herramientas</button>
@@ -451,7 +456,7 @@ const DATA = {
     { id: 'decoracion',    name: 'Decohogar',             icon: '🎨', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400&h=300&fit=crop', fallback: '#f43f5e' },
     { id: 'mascotas',      name: 'Mascotas',              icon: '🐾', image: 'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=400&h=300&fit=crop', fallback: '#f59e0b' },
     { id: 'car',           name: 'Car Center',            icon: '🚗', image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop', fallback: '#6366f1' },
-    { id: 'constructor',   name: 'Construcción',          icon: '🏗️', image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=300&fit=crop', fallback: '#78716c' },
+    { id: 'constructor',   name: 'Construcción',          icon: '️', image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=300&fit=crop', fallback: '#78716c' },
     { id: 'mayor',         name: 'Al por Mayor',          icon: '📦', image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop', fallback: '#a3a3a3' }
   ],
   
@@ -803,9 +808,9 @@ const UI = {
   
   getCategoryEmoji(catId) {
     const emojis = {
-      'herramientas': '', 'electrohogar': '🔌', 'muebles': '🪑', 'jardin': '🌿',
-      'banos': '🚿', 'decoracion': '', 'mascotas': '', 'car': '🚗',
-      'constructor': '🏗️', 'mayor': '📦'
+      'herramientas': '🔨', 'electrohogar': '🔌', 'muebles': '🪑', 'jardin': '🌿',
+      'banos': '', 'decoracion': '🎨', 'mascotas': '🐾', 'car': '🚗',
+      'constructor': '🏗️', 'mayor': ''
     };
     return emojis[catId] || '📦';
   },
@@ -929,7 +934,6 @@ const AIChatbot = {
     if (orderMatch) {
       const orderIntent = intents.find(i => i.id === 'orders');
       orderIntent.confidence = Math.max(orderIntent.confidence, 0.9);
-      intent.data = { orderNumber: orderMatch[0] };
     }
     
     // Check for category extraction
@@ -937,7 +941,7 @@ const AIChatbot = {
     if (catMatch) {
       const catIntent = intents.find(i => i.id === 'catalog');
       catIntent.confidence = Math.max(catIntent.confidence, 0.9);
-      intent.data = { category: catMatch.id };
+      intents.data = { category: catMatch.id };
     }
     
     intents.sort((a, b) => b.confidence - a.confidence);
@@ -947,6 +951,24 @@ const AIChatbot = {
   // Main processing function
   process(input) {
     this.context.conversationTurns++;
+    
+    // FIX: Intercept command-style inputs from Quick Reply Buttons (e.g., "cat:herramientas")
+    if (input.startsWith('cat:')) {
+      const catId = input.split(':')[1];
+      return this.handleCatalog(catId);
+    }
+    if (input === 'catalogo') return this.handleCatalog(null);
+    if (input === 'ofertas') return this.handleOffers();
+    if (input === 'pedidos') return this.handleOrders(null);
+    if (input === 'horario') return this.handleHours();
+    if (input === 'servicios') return this.handleServices();
+    if (input === 'carrito') return this.handleCart();
+    if (input === 'vercarrito') return this.handleCart();
+    if (input === 'iracarrito') {
+      Router.navigate('cart');
+      return { text: '🛒 Abriendo tu carrito...', replies: [] };
+    }
+    
     const result = this.classifyIntent(input);
     this.context.lastIntent = result.id;
     
@@ -980,14 +1002,14 @@ const AIChatbot = {
       this.context.lastCategory = catId;
       const cat = DATA.categories.find(c => c.id === catId);
       const items = DATA.products.filter(p => p.cat === catId);
-      return { text: `📦 **${cat.name}**\n\n` + items.slice(0,4).map(p => p.name + '\n💚 $' + p.price.toLocaleString()).join('\n\n'), replies: [{label:'Ver detalle', cmd:'detalle:'+items[0]?.id},{label:'Catálogo', cmd:'catalogo'},{label:'Ofertas', cmd:'ofertas'}] };
+      return { text: ` **${cat.name}**\n\n` + items.slice(0,4).map(p => p.name + '\n💚 $' + p.price.toLocaleString()).join('\n\n'), replies: [{label:'Ver detalle', cmd:'detalle:'+items[0]?.id},{label:'Catálogo', cmd:'catalogo'},{label:'Ofertas', cmd:'ofertas'}] };
     }
     return { text: '🛍️ **Catálogo Completo**\n\n' + DATA.categories.map(c => c.icon + ' ' + c.name).join('\n'), replies: DATA.categories.slice(0,6).map(c => ({label:c.name, cmd:'cat:'+c.id})) };
   },
   
   handleOffers() {
     const items = DATA.products.filter(p => p.badge && p.badge.includes('%'));
-    return { text: '⚡ **Ofertas Relámpago**\n\n' + items.map(p => '🔥 ' + p.name + '\n💚 $' + p.price.toLocaleString() + ' ❌ $' + p.oldPrice.toLocaleString()).join('\n\n'), replies: [{label:'Ver catálogo', cmd:'catalogo'},{label:'Agregar al carrito', cmd:'carrito'}] };
+    return { text: ' **Ofertas Relámpago**\n\n' + items.map(p => '🔥 ' + p.name + '\n💚 $' + p.price.toLocaleString() + ' ❌ $' + p.oldPrice.toLocaleString()).join('\n\n'), replies: [{label:'Ver catálogo', cmd:'catalogo'},{label:'Agregar al carrito', cmd:'carrito'}] };
   },
   
   handleOrders(orderNum) {
@@ -1016,15 +1038,15 @@ const AIChatbot = {
   },
   
   handleHours() {
-    return { text: '🕐 **Horarios de Atención**\nLunes a Domingo: 7:00 AM — 8:00 PM\n 320 88 999 33\n💡 Compra online 24/7', replies: [{label:'Servicios', cmd:'servicios'},{label:'Inicio', cmd:'hola'}] };
+    return { text: '🕐 **Horarios de Atención**\nLunes a Domingo: 7:00 AM — 8:00 PM\n📞 320 88 999 33\n💡 Compra online 24/7', replies: [{label:'Servicios', cmd:'servicios'},{label:'Inicio', cmd:'hola'}] };
   },
   
   handleServices() {
-    return { text: '️ **Servicios HomeCenter**\n• Diseño de persianas a medida\n• Puertas personalizadas\n• Alquiler de herramientas\n• Instalación profesional', replies: [{label:'Cotizar', cmd:'hola'},{label:'Inicio', cmd:'hola'}] };
+    return { text: '🛠️ **Servicios HomeCenter**\n• Diseño de persianas a medida\n• Puertas personalizadas\n• Alquiler de herramientas\n• Instalación profesional', replies: [{label:'Cotizar', cmd:'hola'},{label:'Inicio', cmd:'hola'}] };
   },
   
   handleAgent() {
-    return { text: '👨‍ **Conectando con asesor humano...**\n📞 320 88 999 33\n✉️ ayuda@homecenter.co\n⏱ Tiempo estimado: 2 minutos', replies: [{label:'Cancelar', cmd:'hola'},{label:'Dejar mensaje', cmd:'hola'}] };
+    return { text: '👨‍🔧 **Conectando con asesor humano...**\n📞 320 88 999 33\n✉️ ayuda@homecenter.co\n⏱ Tiempo estimado: 2 minutos', replies: [{label:'Cancelar', cmd:'hola'},{label:'Dejar mensaje', cmd:'hola'}] };
   },
   
   handleCart() {
@@ -1035,13 +1057,12 @@ const AIChatbot = {
     const t = input.toLowerCase().trim();
     const found = DATA.products.filter(p => p.name.toLowerCase().includes(t) || p.brand.toLowerCase().includes(t));
     if (found.length) {
-      return { text: ' **Resultados**\n\n' + found.slice(0,3).map(p => p.name + '\n💚 $' + p.price.toLocaleString()).join('\n\n'), replies: [{label:'Detalle', cmd:'detalle:'+found[0].id},{label:'Catálogo', cmd:'catalogo'}] };
+      return { text: '🔍 **Resultados**\n\n' + found.slice(0,3).map(p => p.name + '\n💚 $' + p.price.toLocaleString()).join('\n\n'), replies: [{label:'Detalle', cmd:'detalle:'+found[0].id},{label:'Catálogo', cmd:'catalogo'}] };
     }
     return this.handleFallback(input);
   },
   
   handleFallback(input) {
-    // Smart contextual fallback
     const suggestions = [
       {label:'Catálogo', cmd:'catalogo'},
       {label:'Ofertas', cmd:'ofertas'},
@@ -1182,3 +1203,4 @@ else init();
 </script>
 </body>
 </html>
+```
