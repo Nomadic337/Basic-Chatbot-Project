@@ -204,8 +204,8 @@
 <body>
 
   <div class="top-bar">
-    <div>📍 Encuentra tu tienda &nbsp;|&nbsp; 🚚 Envío gratis en compras &gt; $199.900 &nbsp;|&nbsp; <a href="#" data-nav="servicios">Servicios</a></div>
-    <div>📞 Línea nacional: 320 88 999 33</div>
+    <div>📍 Encuentra tu tienda &nbsp;|&nbsp;  Envío gratis en compras &gt; $199.900 &nbsp;|&nbsp; <a href="#" data-nav="servicios">Servicios</a></div>
+    <div> Línea nacional: 320 88 999 33</div>
   </div>
 
   <header>
@@ -216,7 +216,7 @@
         <button data-action="search">Buscar</button>
       </div>
       <div class="header-actions">
-        <div class="header-action" data-nav="account"><div class="icon">👤</div><div class="label">Mi Cuenta</div></div>
+        <div class="header-action" data-nav="account"><div class="icon"></div><div class="label">Mi Cuenta</div></div>
         <div class="header-action" data-nav="orders"><div class="icon">📋</div><div class="label">Pedidos</div></div>
         <div class="header-action cart-badge" data-nav="cart"><div class="icon"></div><div class="label">Carrito</div><div class="count" id="cartCount">0</div></div>
       </div>
@@ -282,8 +282,8 @@
           <div class="detail-savings" id="prodSavings">Ahorras: $140.000</div>
           <div class="detail-stock" id="prodStock"> 18 disponibles</div>
           <div class="detail-actions">
-            <button class="btn-primary" id="prodAddCart">🛒 Agregar al carrito</button>
-            <button class="btn-secondary" id="prodBuyNow">⚡ Comprar ahora</button>
+            <button class="btn-primary" id="prodAddCart"> Agregar al carrito</button>
+            <button class="btn-secondary" id="prodBuyNow"> Comprar ahora</button>
           </div>
           <div class="detail-specs">
             <h3>Especificaciones</h3>
@@ -803,8 +803,8 @@ const UI = {
   
   getCategoryEmoji(catId) {
     const emojis = {
-      'herramientas': '🔨', 'electrohogar': '🔌', 'muebles': '🪑', 'jardin': '🌿',
-      'banos': '🚿', 'decoracion': '', 'mascotas': '🐾', 'car': '🚗',
+      'herramientas': '', 'electrohogar': '🔌', 'muebles': '🪑', 'jardin': '🌿',
+      'banos': '🚿', 'decoracion': '', 'mascotas': '', 'car': '🚗',
       'constructor': '🏗️', 'mayor': '📦'
     };
     return emojis[catId] || '📦';
@@ -849,24 +849,12 @@ const UI = {
 };
 
 // ==================== IMAGE FALLBACK HANDLER ====================
-// This function is called globally when an image fails to load.
-// 1. Tries to load a placeholder image.
-// 2. If that fails, shows an emoji.
 function handleImageError(img, brand, catId, emoji) {
-  // Step 1: Load Placeholder Image
-  // We use a reliable placeholder service.
   const color = UI.getHexColor(catId) || 'cccccc';
   const text = encodeURIComponent(brand || 'Producto');
-  
-  // Set new source to placeholder
   img.src = `https://via.placeholder.com/400x400/${color}/ffffff?text=${text}`;
-  
-  // Update onerror to handle the *next* failure (Step 2)
   img.onerror = function() {
-     // Step 2: Hide image and show emoji
      this.style.display = 'none';
-     
-     // We need to find the container to insert the emoji if it's not there
      const container = this.parentElement;
      if (container && !container.querySelector('.emoji-fallback')) {
         const emojiSpan = document.createElement('span');
@@ -878,99 +866,209 @@ function handleImageError(img, brand, catId, emoji) {
   };
 }
 
-// ==================== CHATBOT ====================
-const Chatbot = {
-  process(input) {
+// ==================== AI-ENHANCED CHATBOT ====================
+const AIChatbot = {
+  context: { lastCategory: null, lastProduct: null, lastIntent: null, conversationTurns: 0 },
+  
+  // Fuzzy matching using Levenshtein distance
+  fuzzyMatch(input, patterns) {
+    input = input.toLowerCase().trim();
+    for (let pattern of patterns) {
+      if (input === pattern) return { match: pattern, confidence: 1.0 };
+      if (input.includes(pattern)) return { match: pattern, confidence: 0.85 };
+      
+      const dist = this.levenshteinDistance(input, pattern);
+      const maxLen = Math.max(input.length, pattern.length);
+      const sim = 1 - (dist / maxLen);
+      if (sim > 0.75) return { match: pattern, confidence: sim };
+    }
+    return null;
+  },
+  
+  levenshteinDistance(a, b) {
+    if (a.length === 0) return b.length;
+    if (b.length === 0) return a.length;
+    const matrix = [];
+    for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+    for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+    for (let i = 1; i <= b.length; i++) {
+      for (let j = 1; j <= a.length; j++) {
+        matrix[i][j] = b.charAt(i-1) === a.charAt(j-1) 
+          ? matrix[i-1][j-1] 
+          : Math.min(matrix[i-1][j-1]+1, matrix[i][j-1]+1, matrix[i-1][j]+1);
+      }
+    }
+    return matrix[b.length][a.length];
+  },
+  
+  // Intent classification with confidence scoring
+  classifyIntent(input) {
     const t = input.toLowerCase().trim();
-
-    if (t === 'hola' || t === 'inicio') {
-      return { text: '¡Bienvenido a HomeCenter!  ¿En qué te ayudo hoy?', replies: [{label:'Ver catálogo', cmd:'catalogo'},{label:'Ofertas relámpago', cmd:'ofertas'},{label:'Rastrear pedido', cmd:'pedidos'},{label:'Horarios', cmd:'horario'}] };
+    const intents = [
+      { id: 'greeting', patterns: ['hola', 'buenas', 'hey', 'hi', 'buenos dias', 'buenas tardes', 'saludos'], confidence: 0 },
+      { id: 'catalog', patterns: ['catalogo', 'catálogo', 'productos', 'ver productos', 'mostrar productos', 'explorar'], confidence: 0 },
+      { id: 'offers', patterns: ['ofertas', 'descuento', 'promoción', 'barato', 'flash', 'rebajas', 'ahorro'], confidence: 0 },
+      { id: 'orders', patterns: ['pedido', 'orden', 'compra', 'rastrear', 'seguimiento', 'dónde está', 'estado'], confidence: 0 },
+      { id: 'returns', patterns: ['devolucion', 'devolución', 'retorno', 'cambiar', 'garantia', 'garantía', 'política', 'reembolso'], confidence: 0 },
+      { id: 'shipping', patterns: ['envio', 'envío', 'domicilio', 'entrega', 'gratis', 'llegada', 'guía'], confidence: 0 },
+      { id: 'payment', patterns: ['pago', 'pagar', 'tarjeta', 'nequi', 'daviplata', 'efectivo', 'cuotas', 'crédito'], confidence: 0 },
+      { id: 'hours', patterns: ['horario', 'abierto', 'cierra', 'tienda', 'atención', 'hora', 'domingo'], confidence: 0 },
+      { id: 'services', patterns: ['servicio', 'instalación', 'alquiler', 'diseño', 'persiana', 'montaje', 'técnico'], confidence: 0 },
+      { id: 'agent', patterns: ['asesor', 'persona', 'humano', 'hablar', 'llamar', 'contacto', 'soporte'], confidence: 0 },
+      { id: 'cart', patterns: ['carrito', 'mi carrito', 'ver carrito', 'ir al carrito'], confidence: 0 },
+      { id: 'search', patterns: ['buscar', 'encuentra', 'tienes', 'necesito', 'quiero'], confidence: 0 }
+    ];
+    
+    intents.forEach(intent => {
+      const match = this.fuzzyMatch(t, intent.patterns);
+      if (match) intent.confidence = Math.max(intent.confidence, match.confidence);
+    });
+    
+    // Check for order number extraction
+    const orderMatch = t.match(/\d{4}/);
+    if (orderMatch) {
+      const orderIntent = intents.find(i => i.id === 'orders');
+      orderIntent.confidence = Math.max(orderIntent.confidence, 0.9);
+      intent.data = { orderNumber: orderMatch[0] };
     }
-    if (t === 'catalogo') {
-      return { text: '️ **Catálogo Completo**\n\n' + DATA.categories.map(c => c.icon + ' ' + c.name).join('\n'), replies: DATA.categories.slice(0,6).map(c => ({label:c.name, cmd:'cat:'+c.id})) };
+    
+    // Check for category extraction
+    const catMatch = DATA.categories.find(c => t.includes(c.name.toLowerCase()) || t.includes(c.id));
+    if (catMatch) {
+      const catIntent = intents.find(i => i.id === 'catalog');
+      catIntent.confidence = Math.max(catIntent.confidence, 0.9);
+      intent.data = { category: catMatch.id };
     }
-    if (t === 'ofertas') {
-      const items = DATA.products.filter(p => p.badge && p.badge.includes('%'));
-      return { text: '⚡ **Ofertas Relámpago**\n\n' + items.map(p => ' ' + p.name + '\n💚 $' + p.price.toLocaleString() + ' ❌ $' + p.oldPrice.toLocaleString()).join('\n\n'), replies: [{label:'Ver catálogo', cmd:'catalogo'},{label:'Agregar al carrito', cmd:'carrito'}] };
+    
+    intents.sort((a, b) => b.confidence - a.confidence);
+    return intents[0];
+  },
+  
+  // Main processing function
+  process(input) {
+    this.context.conversationTurns++;
+    const result = this.classifyIntent(input);
+    this.context.lastIntent = result.id;
+    
+    // Route based on intent + confidence threshold
+    if (result.confidence < 0.6) return this.handleFallback(input);
+    
+    switch(result.id) {
+      case 'greeting': return this.handleGreeting();
+      case 'catalog': return this.handleCatalog(result.data?.category);
+      case 'offers': return this.handleOffers();
+      case 'orders': return this.handleOrders(result.data?.orderNumber);
+      case 'returns': return this.handleReturns();
+      case 'shipping': return this.handleShipping();
+      case 'payment': return this.handlePayment();
+      case 'hours': return this.handleHours();
+      case 'services': return this.handleServices();
+      case 'agent': return this.handleAgent();
+      case 'cart': return this.handleCart();
+      case 'search': return this.handleSearch(input);
+      default: return this.handleFallback(input);
     }
-    if (t === 'pedidos') {
-      const keys = Object.keys(DATA.orders);
-      return { text: ' **Mis Pedidos**\n\n' + keys.map(k => { const o = DATA.orders[k]; return 'Pedido #' + k + ' — ' + o.status + '\nTotal: $' + o.total.toLocaleString(); }).join('\n\n'), replies: [{label:'Rastrear #1002', cmd:'track:1002'},{label:'Inicio', cmd:'hola'}] };
+  },
+  
+  // Intent handlers
+  handleGreeting() {
+    return { text: '¡Bienvenido a HomeCenter!  ¿En qué te ayudo hoy?', replies: [{label:'Ver catálogo', cmd:'catalogo'},{label:'Ofertas relámpago', cmd:'ofertas'},{label:'Rastrear pedido', cmd:'pedidos'},{label:'Horarios', cmd:'horario'}] };
+  },
+  
+  handleCatalog(catId) {
+    if (catId) {
+      this.context.lastCategory = catId;
+      const cat = DATA.categories.find(c => c.id === catId);
+      const items = DATA.products.filter(p => p.cat === catId);
+      return { text: `📦 **${cat.name}**\n\n` + items.slice(0,4).map(p => p.name + '\n💚 $' + p.price.toLocaleString()).join('\n\n'), replies: [{label:'Ver detalle', cmd:'detalle:'+items[0]?.id},{label:'Catálogo', cmd:'catalogo'},{label:'Ofertas', cmd:'ofertas'}] };
     }
-    if (t.startsWith('track:')) {
-      const num = t.split(':')[1];
-      const o = DATA.orders[num];
-      if (o) return { text: '📦 **Pedido #' + num + '**\nEstado: ' + o.status + '\nFecha: ' + o.date + '\nTotal: $' + o.total.toLocaleString(), replies: [{label:'Más pedidos', cmd:'pedidos'},{label:'Inicio', cmd:'hola'}] };
+    return { text: '🛍️ **Catálogo Completo**\n\n' + DATA.categories.map(c => c.icon + ' ' + c.name).join('\n'), replies: DATA.categories.slice(0,6).map(c => ({label:c.name, cmd:'cat:'+c.id})) };
+  },
+  
+  handleOffers() {
+    const items = DATA.products.filter(p => p.badge && p.badge.includes('%'));
+    return { text: '⚡ **Ofertas Relámpago**\n\n' + items.map(p => '🔥 ' + p.name + '\n💚 $' + p.price.toLocaleString() + ' ❌ $' + p.oldPrice.toLocaleString()).join('\n\n'), replies: [{label:'Ver catálogo', cmd:'catalogo'},{label:'Agregar al carrito', cmd:'carrito'}] };
+  },
+  
+  handleOrders(orderNum) {
+    if (orderNum) {
+      const o = DATA.orders[orderNum];
+      if (o) return { text: `📦 **Pedido #${orderNum}**\nEstado: ${o.status}\nFecha: ${o.date}\nTotal: $${o.total.toLocaleString()}`, replies: [{label:'Más pedidos', cmd:'pedidos'},{label:'Inicio', cmd:'hola'}] };
       return { text: '❌ Pedido no encontrado. Intenta con 1001, 1002 o 1003.', replies: [{label:'Mis pedidos', cmd:'pedidos'}] };
     }
-    if (t.startsWith('cat:')) {
-      const id = t.split(':')[1];
-      const cat = DATA.categories.find(c => c.id === id);
-      if (!cat) return { text: ' Categoría no encontrada.', replies: [{label:'Ver todas', cmd:'catalogo'}] };
-      const items = DATA.products.filter(p => p.cat === id);
-      return { text: '📦 **' + cat.name + '**\n\n' + items.slice(0,4).map(p => p.name + '\n💚 $' + p.price.toLocaleString()).join('\n\n'), replies: [{label:'Ver detalle', cmd:'detalle:'+items[0]?.id},{label:'Catálogo', cmd:'catalogo'},{label:'Ofertas', cmd:'ofertas'}] };
-    }
-    if (t.startsWith('detalle:')) {
-      const id = parseInt(t.split(':')[1]);
-      const p = DATA.products.find(x => x.id === id);
-      if (!p) return { text: '❌ Producto no encontrado.', replies: [{label:'Catálogo', cmd:'catalogo'}] };
-      return { text: '📦 **' + p.name + '**\n🏷️ ' + p.brand + '\n💚 $' + p.price.toLocaleString() + '\n⭐ ' + p.rating + '/5\n📦 ' + p.stock + ' disponibles', replies: [{label:'Agregar al carrito', cmd:'add:'+id},{label:'Comprar ahora', cmd:'buy:'+id},{label:'Volver', cmd:'catalogo'}] };
-    }
-    if (t.startsWith('add:')) {
-      const id = parseInt(t.split(':')[1]);
-      Cart.add(id);
-      return { text: '✅ Producto agregado al carrito 🛒', replies: [{label:'Ver carrito', cmd:'vercarrito'},{label:'Seguir comprando', cmd:'catalogo'}] };
-    }
-    if (t.startsWith('buy:')) {
-      const id = parseInt(t.split(':')[1]);
-      Cart.add(id);
-      return { text: '✅ Redirigiendo al checkout...', replies: [] };
-    }
-    if (t === 'vercarrito') {
-      return { text: '🛒 **Tu carrito tiene ' + APP.cart.reduce((s,i)=>s+i.qty,0) + ' productos.**\nTotal: $' + Cart.total().toLocaleString(), replies: [{label:'Ir al carrito', cmd:'iracarrito'},{label:'Seguir comprando', cmd:'catalogo'}] };
-    }
-    if (t === 'iracarrito') {
-      Router.navigate('cart');
-      return { text: '🛒 Abriendo tu carrito...', replies: [] };
-    }
-    if (t === 'horario') {
-      return { text: ' **Horarios de Atención**\nLunes a Domingo: 7:00 AM — 8:00 PM\n📞 320 88 999 33\n Compra online 24/7', replies: [{label:'Servicios', cmd:'servicios'},{label:'Inicio', cmd:'hola'}] };
-    }
-    if (t === 'servicios') {
-      return { text: '🛠️ **Servicios HomeCenter**\n• Diseño de persianas a medida\n• Puertas personalizadas\n• Alquiler de herramientas\n• Instalación profesional', replies: [{label:'Cotizar', cmd:'hola'},{label:'Inicio', cmd:'hola'}] };
-    }
-    if (t === 'carrito') {
-      return { text: '🛒 Tienes ' + APP.cart.reduce((s,i)=>s+i.qty,0) + ' productos en el carrito.', replies: [{label:'Ver carrito', cmd:'iracarrito'},{label:'Seguir comprando', cmd:'catalogo'}] };
-    }
-    if (t === 'devolucion' || t === 'garantia' || t === 'devolución' || t === 'garantía') {
-      return { text: '🔄 **Política de Devoluciones y Garantías**\n\n✅ Devoluciones hasta 30 días con factura\n✅ Producto sin usar y empaque original\n✅ Reembolso en 5-7 días hábiles\n\n🛡️ **Garantías:**\n• Herramientas: 1-2 años\n• Electrodomésticos: 1 año\n• Muebles: 6 meses', replies: [{label:'Iniciar devolución', cmd:'asesor'},{label:'Inicio', cmd:'hola'}] };
-    }
-    if (t === 'envio' || t === 'envío') {
-      return { text: '🚚 **Información de Envíos**\n\n✅ Envío gratis en compras > $199.900\n📍 Envío estándar: 3-5 días ($15.900)\n⚡ Envío express: 24-48h ($29.900)\n🏪 Recogida en tienda: GRATIS', replies: [{label:'Rastrear pedido', cmd:'pedidos'},{label:'Inicio', cmd:'hola'}] };
-    }
-
-    // Fuzzy search fallback
+    const keys = Object.keys(DATA.orders);
+    return { text: '📦 **Mis Pedidos**\n\n' + keys.map(k => { const o = DATA.orders[k]; return 'Pedido #' + k + ' — ' + o.status + '\nTotal: $' + o.total.toLocaleString(); }).join('\n\n'), replies: [{label:'Rastrear #1002', cmd:'track:1002'},{label:'Inicio', cmd:'hola'}] };
+  },
+  
+  handleReturns() {
+    return { 
+      text: '🔄 **Política de Devoluciones y Garantías**\n\n✅ Devoluciones hasta 30 días con factura\n✅ Producto sin usar y empaque original\n✅ Reembolso en 5-7 días hábiles\n\n🛡️ **Garantías:**\n• Herramientas eléctricas: 1-2 años\n• Electrodomésticos: 1 año\n• Muebles: 6 meses\n• Grifería: 5 años en acabado\n\n¿Necesitas iniciar una devolución?', 
+      replies: [{label:'Iniciar devolución', cmd:'asesor'},{label:'Inicio', cmd:'hola'}] 
+    };
+  },
+  
+  handleShipping() {
+    return { text: '🚚 **Información de Envíos**\n\n✅ Envío gratis en compras > $199.900\n📍 Envío estándar: 3-5 días ($15.900)\n⚡ Envío express: 24-48h ($29.900)\n🏪 Recogida en tienda: GRATIS', replies: [{label:'Rastrear pedido', cmd:'pedidos'},{label:'Inicio', cmd:'hola'}] };
+  },
+  
+  handlePayment() {
+    return { text: '💳 **Métodos de Pago**\n\n• Tarjetas de crédito/débito\n• Nequi, Daviplata, Movii\n• Efectivo contraentrega\n• Transferencia bancaria\n• Hasta 24 meses sin interés', replies: [{label:'Inicio', cmd:'hola'},{label:'Finalizar compra', cmd:'iracarrito'}] };
+  },
+  
+  handleHours() {
+    return { text: '🕐 **Horarios de Atención**\nLunes a Domingo: 7:00 AM — 8:00 PM\n 320 88 999 33\n💡 Compra online 24/7', replies: [{label:'Servicios', cmd:'servicios'},{label:'Inicio', cmd:'hola'}] };
+  },
+  
+  handleServices() {
+    return { text: '️ **Servicios HomeCenter**\n• Diseño de persianas a medida\n• Puertas personalizadas\n• Alquiler de herramientas\n• Instalación profesional', replies: [{label:'Cotizar', cmd:'hola'},{label:'Inicio', cmd:'hola'}] };
+  },
+  
+  handleAgent() {
+    return { text: '👨‍ **Conectando con asesor humano...**\n📞 320 88 999 33\n✉️ ayuda@homecenter.co\n⏱ Tiempo estimado: 2 minutos', replies: [{label:'Cancelar', cmd:'hola'},{label:'Dejar mensaje', cmd:'hola'}] };
+  },
+  
+  handleCart() {
+    return { text: '🛒 **Tu carrito tiene ' + APP.cart.reduce((s,i)=>s+i.qty,0) + ' productos.**\nTotal: $' + Cart.total().toLocaleString(), replies: [{label:'Ir al carrito', cmd:'iracarrito'},{label:'Seguir comprando', cmd:'catalogo'}] };
+  },
+  
+  handleSearch(input) {
+    const t = input.toLowerCase().trim();
     const found = DATA.products.filter(p => p.name.toLowerCase().includes(t) || p.brand.toLowerCase().includes(t));
     if (found.length) {
-      return { text: '🔍 **Resultados**\n\n' + found.slice(0,3).map(p => p.name + '\n💚 $' + p.price.toLocaleString()).join('\n\n'), replies: [{label:'Detalle', cmd:'detalle:'+found[0].id},{label:'Catálogo', cmd:'catalogo'}] };
+      return { text: ' **Resultados**\n\n' + found.slice(0,3).map(p => p.name + '\n💚 $' + p.price.toLocaleString()).join('\n\n'), replies: [{label:'Detalle', cmd:'detalle:'+found[0].id},{label:'Catálogo', cmd:'catalogo'}] };
     }
-
-    return { text: ' ¿En qué te ayudo?\n• Catálogo de productos\n• Ofertas relámpago\n• Rastrear pedido\n• Horarios y servicios', replies: [{label:'Catálogo', cmd:'catalogo'},{label:'Ofertas', cmd:'ofertas'},{label:'Pedidos', cmd:'pedidos'},{label:'Horario', cmd:'horario'}] };
+    return this.handleFallback(input);
+  },
+  
+  handleFallback(input) {
+    // Smart contextual fallback
+    const suggestions = [
+      {label:'Catálogo', cmd:'catalogo'},
+      {label:'Ofertas', cmd:'ofertas'},
+      {label:'Pedidos', cmd:'pedidos'},
+      {label:'Devoluciones', cmd:'devolucion'}
+    ];
+    
+    return { 
+      text: `🤔 No estoy seguro de entender "${input}". ¿Podrías reformularlo?\n\nPuedo ayudarte con:\n• Buscar productos\n• Rastrear pedidos\n• Políticas de devolución\n• Horarios y servicios`, 
+      replies: suggestions 
+    };
   }
 };
 
+// ==================== CHAT UI ====================
 const ChatUI = {
   toggle() {
     APP.chatOpen = !APP.chatOpen;
     document.getElementById('chatBox').classList.toggle('open', APP.chatOpen);
     if (APP.chatOpen && !document.getElementById('chatMessages').children.length) {
-      setTimeout(() => this.renderResponse(Chatbot.process('hola')), 300);
+      setTimeout(() => this.renderResponse(AIChatbot.process('hola')), 300);
     }
   },
   send(text) {
     if (!text.trim()) return;
     this.addMessage(text, 'user');
-    setTimeout(() => this.renderResponse(Chatbot.process(text)), 400);
+    setTimeout(() => this.renderResponse(AIChatbot.process(text)), 400);
   },
   addMessage(text, sender) {
     const div = document.createElement('div');
