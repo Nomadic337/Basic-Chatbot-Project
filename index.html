@@ -25,12 +25,10 @@
     button { cursor: pointer; font-family: inherit; }
     img { max-width: 100%; }
 
-    /* ── TOP BAR ─── */
     .top-bar { background: var(--dark); color: var(--white); padding: 0.5rem 2rem; font-size: 0.82rem; display: flex; justify-content: space-between; align-items: center; }
     .top-bar a { color: #a5b4fc; }
     .top-bar a:hover { color: white; }
 
-    /* ─── HEADER ─── */
     header { background: var(--white); box-shadow: var(--shadow); position: sticky; top: 0; z-index: 100; }
     .header-main { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 2rem; gap: 1.5rem; }
     .logo { font-size: 1.7rem; font-weight: 800; color: var(--primary); }
@@ -47,40 +45,34 @@
     .cart-badge { position: relative; }
     .cart-badge .count { position: absolute; top: -4px; right: -6px; background: var(--secondary); color: white; font-size: 0.65rem; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
 
-    /* ─── NAV ─── */
     nav { background: var(--primary); }
     nav ul { max-width: 1300px; margin: 0 auto; display: flex; list-style: none; gap: 0; overflow-x: auto; }
     nav li { flex-shrink: 0; }
     nav a { color: white; padding: 0.85rem 1.2rem; display: block; white-space: nowrap; font-size: 0.9rem; font-weight: 500; transition: background 0.2s; border-bottom: 3px solid transparent; }
     nav a:hover, nav a.active { background: rgba(255,255,255,0.1); border-bottom-color: var(--secondary); }
 
-    /* ─── BANNER ─── */
     .banner { background: linear-gradient(135deg, var(--secondary) 0%, #e85d00 100%); color: white; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
     .banner-badge { background: var(--dark); padding: 0.35rem 0.8rem; border-radius: 4px; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.5px; }
     #countdown { font-weight: 600; font-variant-numeric: tabular-nums; }
 
-    /* ─── CONTAINER & SECTIONS ─── */
     .container { max-width: 1300px; margin: 0 auto; padding: 2rem; }
     .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
     .section-title .line { flex: 1; height: 2px; background: #e5e7eb; margin-left: 0.5rem; }
 
-    /* ─── VIEW CONTAINER ─── */
     .view { display: none; }
     .view.active { display: block; }
 
-    /* ─── CATEGORY GRID ─── */
     .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
     .cat-card { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem 1rem; text-align: center; box-shadow: var(--shadow); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
     .cat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-    .cat-card .icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .cat-card .icon { width: 60px; height: 60px; margin: 0 auto 0.8rem; border-radius: 8px; background-size: cover; background-position: center; }
     .cat-card .name { font-weight: 600; font-size: 0.85rem; line-height: 1.3; }
 
-    /* ─── PRODUCT GRID ─── */
     .prod-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
     .prod-card { background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
     .prod-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
     .prod-badge { position: absolute; top: 10px; left: 10px; background: var(--secondary); color: white; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; z-index: 1; }
-    .prod-img { width: 100%; height: 200px; background: #e8ecf0; display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+    .prod-img { width: 100%; height: 200px; background: #e8ecf0; background-size: cover; background-position: center; }
     .prod-info { padding: 1rem; }
     .prod-brand { color: var(--gray); font-size: 0.78rem; margin-bottom: 0.2rem; }
     .prod-name { font-weight: 600; font-size: 0.92rem; margin-bottom: 0.5rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -92,9 +84,9 @@
     .btn-add { width: 100%; padding: 0.65rem; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 0.85rem; transition: background 0.2s; }
     .btn-add:hover { background: var(--primary-dark); }
 
-    /* ─── PRODUCT DETAIL VIEW ─── */
     .detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; background: var(--white); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow); }
-    .detail-img { background: #e8ecf0; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 8rem; min-height: 350px; }
+    .detail-img { background: #e8ecf0; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; min-height: 350px; overflow: hidden; }
+    .detail-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .detail-info h1 { font-size: 1.6rem; margin-bottom: 0.5rem; }
     .detail-brand { color: var(--gray); margin-bottom: 1rem; }
     .detail-rating { color: #f59e0b; margin-bottom: 1rem; }
@@ -114,12 +106,11 @@
     .spec-label { width: 140px; color: var(--gray); font-size: 0.9rem; }
     .spec-value { font-weight: 500; font-size: 0.9rem; }
 
-    /* ─── CART VIEW ─── */
     .cart-layout { display: grid; grid-template-columns: 1fr 380px; gap: 2rem; }
     .cart-items { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow); }
     .cart-item { display: flex; gap: 1.2rem; padding: 1.2rem 0; border-bottom: 1px solid #e5e7eb; align-items: center; }
     .cart-item:last-child { border-bottom: none; }
-    .cart-item-img { width: 80px; height: 80px; background: #e8ecf0; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0; }
+    .cart-item-img { width: 80px; height: 80px; background: #e8ecf0; border-radius: var(--radius); background-size: cover; background-position: center; flex-shrink: 0; }
     .cart-item-info { flex: 1; }
     .cart-item-name { font-weight: 600; margin-bottom: 0.3rem; }
     .cart-item-brand { color: var(--gray); font-size: 0.8rem; }
@@ -138,7 +129,6 @@
     .cart-empty { text-align: center; padding: 3rem; }
     .cart-empty .icon { font-size: 4rem; margin-bottom: 1rem; }
 
-    /* ─── CHECKOUT VIEW ─── */
     .checkout-layout { display: grid; grid-template-columns: 1fr 400px; gap: 2rem; }
     .checkout-form { background: var(--white); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow); }
     .checkout-form h2 { margin-bottom: 1.5rem; }
@@ -149,14 +139,12 @@
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .order-summary { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow); height: fit-content; position: sticky; top: 100px; }
 
-    /* ─── SUCCESS VIEW ─── */
     .success-view { text-align: center; padding: 4rem 2rem; }
     .success-view .icon { font-size: 5rem; margin-bottom: 1rem; }
     .success-view h1 { color: var(--accent); margin-bottom: 0.5rem; }
     .success-view p { color: var(--gray); margin-bottom: 1.5rem; }
     .order-number { background: var(--light); padding: 1rem 2rem; border-radius: var(--radius); font-size: 1.3rem; font-weight: 700; display: inline-block; margin-bottom: 2rem; }
 
-    /* ── CHAT WIDGET ─── */
     .chat-widget { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 1000; }
     .chat-toggle { width: 56px; height: 56px; border-radius: 50%; background: var(--primary); color: white; border: none; box-shadow: 0 4px 14px rgba(0,102,179,0.4); font-size: 1.5rem; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
     .chat-toggle:hover { transform: scale(1.08); }
@@ -185,7 +173,6 @@
     .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
     @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-5px); } }
 
-    /* ─── FOOTER ─── */
     footer { background: var(--dark); color: #9ca3af; padding: 2.5rem 2rem 1.5rem; margin-top: 3rem; }
     .footer-grid { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
     .footer-col h4 { color: white; margin-bottom: 0.8rem; font-size: 0.95rem; }
@@ -194,12 +181,10 @@
     .footer-col a:hover { color: white; }
     .footer-bottom { text-align: center; padding-top: 1.5rem; border-top: 1px solid #333; font-size: 0.82rem; }
 
-    /* ─── BREADCRUMB ─── */
     .breadcrumb { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--gray); }
     .breadcrumb a { color: var(--primary); }
     .breadcrumb a:hover { text-decoration: underline; }
 
-    /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
       .detail-layout, .cart-layout, .checkout-layout { grid-template-columns: 1fr; }
       .chat-box { width: calc(100vw - 2rem); right: -1rem; }
@@ -215,13 +200,11 @@
 </head>
 <body>
 
-  <!-- TOP BAR -->
   <div class="top-bar">
     <div>📍 Encuentra tu tienda &nbsp;|&nbsp; 🚚 Envío gratis en compras &gt; $199.900 &nbsp;|&nbsp; <a href="#" data-nav="servicios">Servicios</a></div>
-    <div> Línea nacional: 320 88 999 33</div>
+    <div>📞 Línea nacional: 320 88 999 33</div>
   </div>
 
-  <!-- HEADER -->
   <header>
     <div class="header-main">
       <a href="#" class="logo" data-nav="home">Home<span>Center</span></a>
@@ -231,7 +214,7 @@
       </div>
       <div class="header-actions">
         <div class="header-action" data-nav="account"><div class="icon">👤</div><div class="label">Mi Cuenta</div></div>
-        <div class="header-action" data-nav="orders"><div class="icon"></div><div class="label">Pedidos</div></div>
+        <div class="header-action" data-nav="orders"><div class="icon">📋</div><div class="label">Pedidos</div></div>
         <div class="header-action cart-badge" data-nav="cart"><div class="icon">🛒</div><div class="label">Carrito</div><div class="count" id="cartCount">0</div></div>
       </div>
     </div>
@@ -249,14 +232,12 @@
     </nav>
   </header>
 
-  <!-- BANNER -->
   <div class="banner">
     <div class="banner-badge">⚡ OFERTAS RELÁMPAGO</div>
     <div>Hasta 55% de ahorro en productos seleccionados. ¡Termina hoy!</div>
     <div id="countdown">⏰ 04:32:15</div>
   </div>
 
-  <!-- ==================== HOME VIEW ==================== -->
   <div class="view active" id="view-home">
     <div class="container">
       <h2 class="section-title">🛍️ Explora por categoría <span class="line"></span></h2>
@@ -270,7 +251,6 @@
     </div>
   </div>
 
-  <!-- ==================== CATEGORY VIEW ==================== -->
   <div class="view" id="view-category">
     <div class="container">
       <div class="breadcrumb">
@@ -281,14 +261,13 @@
     </div>
   </div>
 
-  <!-- ==================== PRODUCT DETAIL VIEW ==================== -->
   <div class="view" id="view-product">
     <div class="container">
       <div class="breadcrumb">
         <a href="#" data-nav="home">Inicio</a> / <a href="#" id="prodCatLink">Categoría</a> / <span id="prodBreadcrumb">Producto</span>
       </div>
       <div class="detail-layout">
-        <div class="detail-img" id="prodImg">🔧</div>
+        <div class="detail-img" id="prodImg"></div>
         <div class="detail-info">
           <div class="prod-brand" id="prodBrand">Marca</div>
           <h1 id="prodName">Nombre del Producto</h1>
@@ -312,7 +291,6 @@
     </div>
   </div>
 
-  <!-- ==================== CART VIEW ==================== -->
   <div class="view" id="view-cart">
     <div class="container">
       <div class="breadcrumb"><a href="#" data-nav="home">Inicio</a> / <span>Carrito de compras</span></div>
@@ -324,11 +302,10 @@
     </div>
   </div>
 
-  <!-- ==================== CHECKOUT VIEW ==================== -->
   <div class="view" id="view-checkout">
     <div class="container">
       <div class="breadcrumb"><a href="#" data-nav="home">Inicio</a> / <a href="#" data-nav="cart">Carrito</a> / <span>Finalizar compra</span></div>
-      <h2 class="section-title"> Finalizar Compra</h2>
+      <h2 class="section-title">💳 Finalizar Compra</h2>
       <div class="checkout-layout">
         <div class="checkout-form">
           <h2>Datos de envío</h2>
@@ -367,7 +344,6 @@
     </div>
   </div>
 
-  <!-- ==================== SUCCESS VIEW ==================== -->
   <div class="view" id="view-success">
     <div class="container">
       <div class="success-view">
@@ -381,7 +357,6 @@
     </div>
   </div>
 
-  <!-- ==================== SEARCH RESULTS VIEW ==================== -->
   <div class="view" id="view-search">
     <div class="container">
       <div class="breadcrumb"><a href="#" data-nav="home">Inicio</a> / <span>Resultados de búsqueda</span></div>
@@ -390,11 +365,10 @@
     </div>
   </div>
 
-  <!-- ==================== SERVICES VIEW ==================== -->
   <div class="view" id="view-services">
     <div class="container">
       <div class="breadcrumb"><a href="#" data-nav="home">Inicio</a> / <span>Servicios</span></div>
-      <h2 class="section-title">️ Nuestros Servicios</h2>
+      <h2 class="section-title">🛠️ Nuestros Servicios</h2>
       <div class="prod-grid">
         <div class="prod-card" style="padding:2rem;text-align:center">
           <div style="font-size:3rem;margin-bottom:1rem">🎨</div>
@@ -424,7 +398,6 @@
     </div>
   </div>
 
-  <!-- ==================== ORDERS VIEW ==================== -->
   <div class="view" id="view-orders">
     <div class="container">
       <div class="breadcrumb"><a href="#" data-nav="home">Inicio</a> / <span>Mis Pedidos</span></div>
@@ -433,11 +406,10 @@
     </div>
   </div>
 
-  <!-- CHAT WIDGET -->
   <div class="chat-widget">
     <div class="chat-box" id="chatBox">
       <div class="chat-header">
-        <div class="chat-avatar"></div>
+        <div class="chat-avatar">🤖</div>
         <div>
           <h3>Asistente Virtual</h3>
           <div class="chat-status"><span class="dot"></span> En línea — Responde al instante</div>
@@ -452,7 +424,6 @@
     <button class="chat-toggle" data-action="toggleChat">💬</button>
   </div>
 
-  <!-- FOOTER -->
   <footer>
     <div class="footer-grid">
       <div class="footer-col"><h4>Atención al Cliente</h4><ul><li><a href="#">Centro de Ayuda</a></li><li><a href="#">Política de Devoluciones</a></li><li><a href="#">Garantías</a></li><li><a href="#">Rastrea tu Pedido</a></li></ul></div>
@@ -466,34 +437,33 @@
 <script>
 'use strict';
 
-// ==================== DATA STORE ====================
 const DATA = {
   categories: [
-    { id: 'herramientas',  name: 'Herramientas',          icon: '🔨' },
-    { id: 'electrohogar',  name: 'Electrohogar',          icon: '🔌' },
-    { id: 'muebles',       name: 'Muebles y Organización', icon: '🪑' },
-    { id: 'jardin',        name: 'Aire Libre y Jardín',   icon: '🌿' },
-    { id: 'banos',         name: 'Baños y Cocinas',       icon: '' },
-    { id: 'decoracion',    name: 'Decohogar',             icon: '🎨' },
-    { id: 'mascotas',      name: 'Mascotas',              icon: '🐾' },
-    { id: 'car',           name: 'Car Center',            icon: '🚗' },
-    { id: 'constructor',   name: 'Construcción',          icon: '🏗️' },
-    { id: 'mayor',         name: 'Al por Mayor',          icon: '' }
+    { id: 'herramientas',  name: 'Herramientas',          icon: '🔨', image: 'https://images.unsplash.com/photo-1581235024912-4617133d5a81?w=400&h=300&fit=crop' },
+    { id: 'electrohogar',  name: 'Electrohogar',          icon: '🔌', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop' },
+    { id: 'muebles',       name: 'Muebles y Organización', icon: '🪑', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop' },
+    { id: 'jardin',        name: 'Aire Libre y Jardín',   icon: '🌿', image: 'https://images.unsplash.com/photo-1558904541-efa843a96f01?w=400&h=300&fit=crop' },
+    { id: 'banos',         name: 'Baños y Cocinas',       icon: '🚿', image: 'https://images.unsplash.com/photo-1552321901-5a129ed45efd?w=400&h=300&fit=crop' },
+    { id: 'decoracion',    name: 'Decohogar',             icon: '🎨', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400&h=300&fit=crop' },
+    { id: 'mascotas',      name: 'Mascotas',              icon: '🐾', image: 'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=400&h=300&fit=crop' },
+    { id: 'car',           name: 'Car Center',            icon: '🚗', image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop' },
+    { id: 'constructor',   name: 'Construcción',          icon: '🏗️', image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=300&fit=crop' },
+    { id: 'mayor',         name: 'Al por Mayor',          icon: '📦', image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop' }
   ],
   products: [
-  { id:1,  name:'Taladro Percutor Inalámbrico 20V con 2 Baterías', brand:'Makita',    cat:'herramientas', price:459900, oldPrice:599900, rating:4.9, reviews:342, stock:18, badge:'-23%',  icon:'🔧' },
-  { id:2,  name:'Olla Multifuncional 6 Litros con Accesorios',     brand:'Wurden',    cat:'electrohogar', price:269900, oldPrice:599900, rating:4.8, reviews:256, stock:15, badge:'-55%',  icon:'🍳' },
-  { id:3,  name:'Caja Fuerte Digital 25×19×21cm 4.2L',             brand:'Karson',    cat:'herramientas', price:84900,  oldPrice:94900,  rating:4.4, reviews:89,  stock:23, badge:'-11%',  icon:'🔐' },
-  { id:4,  name:'Silla Escritorio Ergonómica Atlantic Negro',      brand:'Bonno',     cat:'muebles',      price:149900, oldPrice:359900, rating:3.9, reviews:67,  stock:31, badge:'-58%',  icon:'🪑' },
-  { id:5,  name:'Freidora de Aire Dual 9.5 Litros PowerXL',        brand:'PowerXL',   cat:'electrohogar', price:389900, oldPrice:499900, rating:4.5, reviews:198, stock:12, badge:'Popular', icon:'🔥' },
-  { id:6,  name:'Set de Pintura Antihongos 19 Litros + Rodillo',   brand:'Corona',    cat:'constructor',  price:189900, oldPrice:229900, rating:4.7, reviews:445, stock:67, badge:null,    icon:'🎨' },
-  { id:7,  name:'Grifería Monocontrol para Lavamanos Cromada',     brand:'Lorenzetti',cat:'banos',        price:129900, oldPrice:179900, rating:4.3, reviews:156, stock:28, badge:null,    icon:'🚰' },
-  { id:8,  name:'Cortacésped Eléctrico 1600W 38cm',                brand:'Tramontina',cat:'jardin',       price:349900, oldPrice:429900, rating:4.6, reviews:89,  stock:9,  badge:'Últimas', icon:'🌱' },
-  { id:9,  name:'Juego de Llantas 205/55R16 + Instalación',        brand:'Michelin',  cat:'car',          price:899900, oldPrice:1099900,rating:4.8, reviews:234, stock:40, badge:null,    icon:'🛞' },
-  { id:10, name:'Alimento Premium Perro Adulto 20kg',              brand:'Dog Chow',  cat:'mascotas',     price:119900, oldPrice:139900, rating:4.7, reviews:567, stock:95, badge:null,    icon:'🦴' },
-  { id:11, name:'Cemento Gris Portland Tipo 1 × 50kg',             brand:'Cemex',     cat:'constructor',  price:28900,  oldPrice:32900,  rating:4.5, reviews:892, stock:450,badge:'Mayorista',icon:'🧱'},
-  { id:12, name:'Juego de Vajilla Cerámica 16 Piezas 4 Puestos',   brand:'Just Home', cat:'decoracion',   price:149900, oldPrice:249900, rating:4.6, reviews:128, stock:42, badge:'-40%',  icon:'🍽️' }
-],
+    { id:1,  name:'Taladro Percutor Inalámbrico 20V con 2 Baterías', brand:'Makita',    cat:'herramientas', price:459900, oldPrice:599900, rating:4.9, reviews:342, stock:18, badge:'-23%',  image:'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=400&fit=crop' },
+    { id:2,  name:'Olla Multifuncional 6 Litros con Accesorios',     brand:'Wurden',    cat:'electrohogar', price:269900, oldPrice:599900, rating:4.8, reviews:256, stock:15, badge:'-55%',  image:'https://images.unsplash.com/photo-1585659722903-1b3f45a2b1f3?w=400&h=400&fit=crop' },
+    { id:3,  name:'Caja Fuerte Digital 25×19×21cm 4.2L',             brand:'Karson',    cat:'herramientas', price:84900,  oldPrice:94900,  rating:4.4, reviews:89,  stock:23, badge:'-11%',  image:'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=400&h=400&fit=crop' },
+    { id:4,  name:'Silla Escritorio Ergonómica Atlantic Negro',      brand:'Bonno',     cat:'muebles',      price:149900, oldPrice:359900, rating:3.9, reviews:67,  stock:31, badge:'-58%',  image:'https://images.unsplash.com/photo-1505843490538-5133c6c6b0e1?w=400&h=400&fit=crop' },
+    { id:5,  name:'Freidora de Aire Dual 9.5 Litros PowerXL',        brand:'PowerXL',   cat:'electrohogar', price:389900, oldPrice:499900, rating:4.5, reviews:198, stock:12, badge:'Popular', image:'https://images.unsplash.com/photo-1626147176097-47be94266421?w=400&h=400&fit=crop' },
+    { id:6,  name:'Set de Pintura Antihongos 19 Litros + Rodillo',   brand:'Corona',    cat:'constructor',  price:189900, oldPrice:229900, rating:4.7, reviews:445, stock:67, badge:null,    image:'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=400&h=400&fit=crop' },
+    { id:7,  name:'Grifería Monocontrol para Lavamanos Cromada',     brand:'Lorenzetti',cat:'banos',        price:129900, oldPrice:179900, rating:4.3, reviews:156, stock:28, badge:null,    image:'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&h=400&fit=crop' },
+    { id:8,  name:'Cortacésped Eléctrico 1600W 38cm',                brand:'Tramontina',cat:'jardin',       price:349900, oldPrice:429900, rating:4.6, reviews:89,  stock:9,  badge:'Últimas', image:'https://images.unsplash.com/photo-1558904541-efa843a96f01?w=400&h=400&fit=crop' },
+    { id:9,  name:'Juego de Llantas 205/55R16 + Instalación',        brand:'Michelin',  cat:'car',          price:899900, oldPrice:1099900,rating:4.8, reviews:234, stock:40, badge:null,    image:'https://images.unsplash.com/photo-1578844251758-2f71da645217?w=400&h=400&fit=crop' },
+    { id:10, name:'Alimento Premium Perro Adulto 20kg',              brand:'Dog Chow',  cat:'mascotas',     price:119900, oldPrice:139900, rating:4.7, reviews:567, stock:95, badge:null,    image:'https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=400&h=400&fit=crop' },
+    { id:11, name:'Cemento Gris Portland Tipo 1 × 50kg',             brand:'Cemex',     cat:'constructor',  price:28900,  oldPrice:32900,  rating:4.5, reviews:892, stock:450,badge:'Mayorista',image:'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&h=400&fit=crop' },
+    { id:12, name:'Juego de Vajilla Cerámica 16 Piezas 4 Puestos',   brand:'Just Home', cat:'decoracion',   price:149900, oldPrice:249900, rating:4.6, reviews:128, stock:42, badge:'-40%',  image:'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=400&h=400&fit=crop' }
+  ],
   orders: {
     '1001': { status:'Entregado', date:'23 Mayo 2026', total:459900, items:[{id:1,qty:1}] },
     '1002': { status:'En tránsito', date:'26 Mayo 2026', total:269900, items:[{id:2,qty:1}] },
@@ -501,7 +471,6 @@ const DATA = {
   }
 };
 
-// ==================== APP STATE ====================
 const APP = {
   cart: JSON.parse(localStorage.getItem('hc_cart') || '[]'),
   currentView: 'home',
@@ -510,7 +479,6 @@ const APP = {
   nextOrderNum: 1004
 };
 
-// ==================== ROUTER ====================
 const Router = {
   navigate(view, data = {}) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -518,13 +486,11 @@ const Router = {
     if (el) { el.classList.add('active'); APP.currentView = view; }
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Update nav active state
     document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
     if (view === 'home') {
       document.querySelector('nav a[data-nav="home"]')?.classList.add('active');
     }
 
-    // View-specific logic
     if (view === 'cart') Cart.render();
     if (view === 'checkout') Checkout.render();
     if (view === 'orders') Orders.render();
@@ -534,7 +500,6 @@ const Router = {
   }
 };
 
-// ==================== CATEGORY VIEW ====================
 const Category = {
   render(data) {
     const cat = DATA.categories.find(c => c.id === data.id);
@@ -548,13 +513,12 @@ const Category = {
   }
 };
 
-// ==================== PRODUCT DETAIL VIEW ====================
 const Product = {
   render(data) {
     const p = DATA.products.find(x => x.id === data.id);
     if (!p) return;
     const cat = DATA.categories.find(c => c.id === p.cat);
-    document.getElementById('prodImg').textContent = p.icon;
+    document.getElementById('prodImg').innerHTML = `<img src="${p.image}" alt="${p.name}">`;
     document.getElementById('prodBrand').textContent = p.brand;
     document.getElementById('prodName').textContent = p.name;
     document.getElementById('prodRating').textContent = '⭐'.repeat(Math.floor(p.rating)) + ` ${p.rating} (${p.reviews} reseñas)`;
@@ -579,7 +543,6 @@ const Product = {
   }
 };
 
-// ==================== CART ====================
 const Cart = {
   save() { localStorage.setItem('hc_cart', JSON.stringify(APP.cart)); this.updateCount(); },
   updateCount() {
@@ -591,7 +554,6 @@ const Cart = {
     if (existing) existing.qty += qty;
     else APP.cart.push({ id, qty });
     this.save();
-    // Brief notification
     const p = DATA.products.find(x => x.id === id);
     alert('✅ ' + p?.name + '\nAgregado al carrito');
   },
@@ -624,7 +586,7 @@ const Cart = {
       const p = DATA.products.find(x => x.id === item.id);
       if (!p) return '';
       return `<div class="cart-item">
-        <div class="cart-item-img">${p.icon}</div>
+        <div class="cart-item-img" style="background-image:url('${p.image}')"></div>
         <div class="cart-item-info">
           <div class="cart-item-name">${p.name}</div>
           <div class="cart-item-brand">${p.brand}</div>
@@ -635,7 +597,7 @@ const Cart = {
           <span class="qty-val">${item.qty}</span>
           <button class="qty-btn" data-qty="${item.id}" data-delta="1">+</button>
         </div>
-        <button class="cart-remove" data-remove="${item.id}">️</button>
+        <button class="cart-remove" data-remove="${item.id}">🗑️</button>
       </div>`;
     }).join('');
 
@@ -652,7 +614,6 @@ const Cart = {
   }
 };
 
-// ==================== CHECKOUT ====================
 const Checkout = {
   render() {
     const el = document.getElementById('orderSummary');
@@ -670,7 +631,6 @@ const Checkout = {
   }
 };
 
-// ==================== ORDERS ====================
 const Orders = {
   render() {
     const el = document.getElementById('ordersList');
@@ -684,7 +644,6 @@ const Orders = {
   }
 };
 
-// ==================== SEARCH ====================
 const Search = {
   render(data) {
     const q = (data.query || '').toLowerCase().trim();
@@ -698,12 +657,11 @@ const Search = {
   }
 };
 
-// ==================== UI HELPERS ====================
 const UI = {
   productCard(p) {
     return `<div class="prod-card" data-product="${p.id}">
       ${p.badge ? `<div class="prod-badge">${p.badge}</div>` : ''}
-      <div class="prod-img">${p.icon}</div>
+      <div class="prod-img" style="background-image:url('${p.image}')"></div>
       <div class="prod-info">
         <div class="prod-brand">${p.brand}</div>
         <div class="prod-name">${p.name}</div>
@@ -717,16 +675,24 @@ const UI = {
       </div>
     </div>`;
   },
+  
   renderCategories() {
     const grid = document.getElementById('categoriesGrid');
     if (!grid) return;
-    grid.innerHTML = DATA.categories.map(c => `<div class="cat-card" data-category="${c.id}"><div class="icon">${c.icon}</div><div class="name">${c.name}</div></div>`).join('');
+    grid.innerHTML = DATA.categories.map(c => `
+      <div class="cat-card" data-category="${c.id}">
+        <div class="icon" style="background-image:url('${c.image}')"></div>
+        <div class="name">${c.name}</div>
+      </div>
+    `).join('');
   },
+  
   renderFlash() {
     const grid = document.getElementById('flashGrid');
     if (!grid) return;
     grid.innerHTML = DATA.products.filter(p => p.badge && p.badge.includes('%')).map(p => this.productCard(p)).join('');
   },
+  
   renderFeatured() {
     const grid = document.getElementById('featuredGrid');
     if (!grid) return;
@@ -734,7 +700,6 @@ const UI = {
   }
 };
 
-// ==================== CHATBOT ====================
 const Chatbot = {
   process(input) {
     const t = input.toLowerCase().trim();
@@ -756,7 +721,7 @@ const Chatbot = {
     if (t.startsWith('track:')) {
       const num = t.split(':')[1];
       const o = DATA.orders[num];
-      if (o) return { text: ' **Pedido #' + num + '**\nEstado: ' + o.status + '\nFecha: ' + o.date + '\nTotal: $' + o.total.toLocaleString(), replies: [{label:'Más pedidos', cmd:'pedidos'},{label:'Inicio', cmd:'hola'}] };
+      if (o) return { text: '📦 **Pedido #' + num + '**\nEstado: ' + o.status + '\nFecha: ' + o.date + '\nTotal: $' + o.total.toLocaleString(), replies: [{label:'Más pedidos', cmd:'pedidos'},{label:'Inicio', cmd:'hola'}] };
       return { text: '❌ Pedido no encontrado. Intenta con 1001, 1002 o 1003.', replies: [{label:'Mis pedidos', cmd:'pedidos'}] };
     }
     if (t.startsWith('cat:')) {
@@ -799,17 +764,15 @@ const Chatbot = {
       return { text: '🛒 Tienes ' + APP.cart.reduce((s,i)=>s+i.qty,0) + ' productos en el carrito.', replies: [{label:'Ver carrito', cmd:'iracarrito'},{label:'Seguir comprando', cmd:'catalogo'}] };
     }
 
-    // Fuzzy search fallback
     const found = DATA.products.filter(p => p.name.toLowerCase().includes(t) || p.brand.toLowerCase().includes(t));
     if (found.length) {
       return { text: '🔍 **Resultados**\n\n' + found.slice(0,3).map(p => p.name + '\n💚 $' + p.price.toLocaleString()).join('\n\n'), replies: [{label:'Detalle', cmd:'detalle:'+found[0].id},{label:'Catálogo', cmd:'catalogo'}] };
     }
 
-    return { text: ' ¿En qué te ayudo?\n• Catálogo de productos\n• Ofertas relámpago\n• Rastrear pedido\n• Horarios y servicios', replies: [{label:'Catálogo', cmd:'catalogo'},{label:'Ofertas', cmd:'ofertas'},{label:'Pedidos', cmd:'pedidos'},{label:'Horario', cmd:'horario'}] };
+    return { text: '🤔 ¿En qué te ayudo?\n• Catálogo de productos\n• Ofertas relámpago\n• Rastrear pedido\n• Horarios y servicios', replies: [{label:'Catálogo', cmd:'catalogo'},{label:'Ofertas', cmd:'ofertas'},{label:'Pedidos', cmd:'pedidos'},{label:'Horario', cmd:'horario'}] };
   }
 };
 
-// ==================== CHAT UI ====================
 const ChatUI = {
   toggle() {
     APP.chatOpen = !APP.chatOpen;
@@ -866,7 +829,6 @@ const ChatUI = {
   }
 };
 
-// ==================== EVENT DELEGATION ====================
 document.addEventListener('click', (e) => {
   const el = e.target.closest('[data-nav]') ||
              e.target.closest('[data-category]') ||
@@ -902,28 +864,24 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// Enter key
 document.addEventListener('keydown', (e) => {
   if (e.key !== 'Enter') return;
   if (e.target.id === 'chatInput') { ChatUI.send(e.target.value); e.target.value = ''; }
   if (e.target.id === 'mainSearch') { const q = e.target.value; if(q.trim()) Router.navigate('search', {query:q}); }
 });
 
-// Pay method toggle
 document.addEventListener('change', (e) => {
   if (e.target.id === 'checkPayMethod') {
     document.getElementById('cardFields').style.display = e.target.value === 'efectivo' || e.target.value === 'nequi' ? 'none' : 'block';
   }
 });
 
-// ==================== INIT ====================
 function init() {
   UI.renderCategories();
   UI.renderFlash();
   UI.renderFeatured();
   Cart.updateCount();
 
-  // Countdown
   const update = () => {
     const now = new Date();
     const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
