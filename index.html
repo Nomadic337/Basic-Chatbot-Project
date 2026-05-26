@@ -65,14 +65,16 @@
     .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
     .cat-card { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem 1rem; text-align: center; box-shadow: var(--shadow); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
     .cat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-    .cat-card .icon { width: 60px; height: 60px; margin: 0 auto 0.8rem; border-radius: 8px; background-size: cover; background-position: center; }
+    .cat-card .icon { width: 60px; height: 60px; margin: 0 auto 0.8rem; border-radius: 8px; overflow: hidden; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+    .cat-card .icon img { width: 100%; height: 100%; object-fit: cover; }
     .cat-card .name { font-weight: 600; font-size: 0.85rem; line-height: 1.3; }
 
     .prod-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
     .prod-card { background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
     .prod-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
     .prod-badge { position: absolute; top: 10px; left: 10px; background: var(--secondary); color: white; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; z-index: 1; }
-    .prod-img { width: 100%; height: 200px; background: #e8ecf0; background-size: cover; background-position: center; }
+    .prod-img { width: 100%; height: 200px; background: #f0f0f0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .prod-img img { width: 100%; height: 100%; object-fit: cover; }
     .prod-info { padding: 1rem; }
     .prod-brand { color: var(--gray); font-size: 0.78rem; margin-bottom: 0.2rem; }
     .prod-name { font-weight: 600; font-size: 0.92rem; margin-bottom: 0.5rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -85,7 +87,7 @@
     .btn-add:hover { background: var(--primary-dark); }
 
     .detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; background: var(--white); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow); }
-    .detail-img { background: #e8ecf0; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; min-height: 350px; overflow: hidden; }
+    .detail-img { background: #f0f0f0; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; min-height: 350px; overflow: hidden; }
     .detail-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .detail-info h1 { font-size: 1.6rem; margin-bottom: 0.5rem; }
     .detail-brand { color: var(--gray); margin-bottom: 1rem; }
@@ -110,7 +112,8 @@
     .cart-items { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow); }
     .cart-item { display: flex; gap: 1.2rem; padding: 1.2rem 0; border-bottom: 1px solid #e5e7eb; align-items: center; }
     .cart-item:last-child { border-bottom: none; }
-    .cart-item-img { width: 80px; height: 80px; background: #e8ecf0; border-radius: var(--radius); background-size: cover; background-position: center; flex-shrink: 0; }
+    .cart-item-img { width: 80px; height: 80px; background: #f0f0f0; border-radius: var(--radius); overflow: hidden; flex-shrink: 0; }
+    .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
     .cart-item-info { flex: 1; }
     .cart-item-name { font-weight: 600; margin-bottom: 0.3rem; }
     .cart-item-brand { color: var(--gray); font-size: 0.8rem; }
@@ -201,7 +204,7 @@
 <body>
 
   <div class="top-bar">
-    <div> Encuentra tu tienda &nbsp;|&nbsp; 🚚 Envío gratis en compras &gt; $199.900 &nbsp;|&nbsp; <a href="#" data-nav="servicios">Servicios</a></div>
+    <div>📍 Encuentra tu tienda &nbsp;|&nbsp; 🚚 Envío gratis en compras &gt; $199.900 &nbsp;|&nbsp; <a href="#" data-nav="servicios">Servicios</a></div>
     <div>📞 Línea nacional: 320 88 999 33</div>
   </div>
 
@@ -215,7 +218,7 @@
       <div class="header-actions">
         <div class="header-action" data-nav="account"><div class="icon">👤</div><div class="label">Mi Cuenta</div></div>
         <div class="header-action" data-nav="orders"><div class="icon">📋</div><div class="label">Pedidos</div></div>
-        <div class="header-action cart-badge" data-nav="cart"><div class="icon">🛒</div><div class="label">Carrito</div><div class="count" id="cartCount">0</div></div>
+        <div class="header-action cart-badge" data-nav="cart"><div class="icon"></div><div class="label">Carrito</div><div class="count" id="cartCount">0</div></div>
       </div>
     </div>
     <nav>
@@ -235,7 +238,7 @@
   <div class="banner">
     <div class="banner-badge">⚡ OFERTAS RELÁMPAGO</div>
     <div>Hasta 55% de ahorro en productos seleccionados. ¡Termina hoy!</div>
-    <div id="countdown"> 04:32:15</div>
+    <div id="countdown">⏰ 04:32:15</div>
   </div>
 
   <div class="view active" id="view-home">
@@ -243,7 +246,7 @@
       <h2 class="section-title">🛍️ Explora por categoría <span class="line"></span></h2>
       <div class="cat-grid" id="categoriesGrid"></div>
 
-      <h2 class="section-title"> Ofertas Relámpago <span class="line"></span></h2>
+      <h2 class="section-title">⚡ Ofertas Relámpago <span class="line"></span></h2>
       <div class="prod-grid" id="flashGrid"></div>
 
       <h2 class="section-title">🌟 Productos Destacados <span class="line"></span></h2>
@@ -277,10 +280,10 @@
             <span class="detail-old" id="prodOld">$599.900</span>
           </div>
           <div class="detail-savings" id="prodSavings">Ahorras: $140.000</div>
-          <div class="detail-stock" id="prodStock">📦 18 disponibles</div>
+          <div class="detail-stock" id="prodStock"> 18 disponibles</div>
           <div class="detail-actions">
-            <button class="btn-primary" id="prodAddCart"> Agregar al carrito</button>
-            <button class="btn-secondary" id="prodBuyNow"> Comprar ahora</button>
+            <button class="btn-primary" id="prodAddCart">🛒 Agregar al carrito</button>
+            <button class="btn-secondary" id="prodBuyNow">⚡ Comprar ahora</button>
           </div>
           <div class="detail-specs">
             <h3>Especificaciones</h3>
@@ -383,7 +386,7 @@
           <button class="btn-add" data-nav="home">Solicitar cotización</button>
         </div>
         <div class="prod-card" style="padding:2rem;text-align:center">
-          <div style="font-size:3rem;margin-bottom:1rem">🔧</div>
+          <div style="font-size:3rem;margin-bottom:1rem"></div>
           <div class="prod-name">Alquiler de Herramientas</div>
           <div class="prod-brand" style="margin-bottom:1rem">Por horas, días o semanas</div>
           <button class="btn-add" data-nav="home">Ver herramientas</button>
@@ -401,7 +404,7 @@
   <div class="view" id="view-orders">
     <div class="container">
       <div class="breadcrumb"><a href="#" data-nav="home">Inicio</a> / <span>Mis Pedidos</span></div>
-      <h2 class="section-title"> Mis Pedidos</h2>
+      <h2 class="section-title">📦 Mis Pedidos</h2>
       <div id="ordersList" style="background:white;border-radius:12px;padding:1.5rem;box-shadow:var(--shadow)"></div>
     </div>
   </div>
@@ -429,7 +432,7 @@
       <div class="footer-col"><h4>Atención al Cliente</h4><ul><li><a href="#">Centro de Ayuda</a></li><li><a href="#">Política de Devoluciones</a></li><li><a href="#">Garantías</a></li><li><a href="#">Rastrea tu Pedido</a></li></ul></div>
       <div class="footer-col"><h4>Servicios</h4><ul><li><a href="#">Alquiler de Herramientas</a></li><li><a href="#">Diseño de Persianas</a></li><li><a href="#">Instalación y Montaje</a></li><li><a href="#">Venta al por Mayor</a></li></ul></div>
       <div class="footer-col"><h4>Categorías</h4><ul><li><a href="#" data-category="herramientas">Herramientas</a></li><li><a href="#" data-category="electrohogar">Electrohogar</a></li><li><a href="#" data-category="constructor">Construcción</a></li><li><a href="#" data-category="jardin">Aire Libre y Jardín</a></li></ul></div>
-      <div class="footer-col"><h4>Contacto</h4><ul><li>📞 320 88 999 33</li><li> Bogotá: 307 7115</li><li>✉️ ayuda@homecenter.co</li><li> Lun-Dom: 7AM-8PM</li></ul></div>
+      <div class="footer-col"><h4>Contacto</h4><ul><li>📞 320 88 999 33</li><li>📍 Bogotá: 307 7115</li><li>✉️ ayuda@homecenter.co</li><li>🕐 Lun-Dom: 7AM-8PM</li></ul></div>
     </div>
     <div class="footer-bottom">© 2026 HomeCenter Colombia. Proyecto académico de mejoramiento del hogar.</div>
   </footer>
@@ -440,16 +443,16 @@
 // ==================== DATA STORE ====================
 const DATA = {
   categories: [
-    { id: 'herramientas',  name: 'Herramientas',          icon: '🔨', image: 'https://images.unsplash.com/photo-1581235024912-4617133d5a81?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #f97316, #ea580c)' },
-    { id: 'electrohogar',  name: 'Electrohogar',          icon: '🔌', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #3b82f6, #1d4ed8)' },
-    { id: 'muebles',       name: 'Muebles y Organización', icon: '🪑', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #8b5cf6, #6d28d9)' },
-    { id: 'jardin',        name: 'Aire Libre y Jardín',   icon: '🌿', image: 'https://images.unsplash.com/photo-1558904541-efa843a96f01?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #22c55e, #16a34a)' },
-    { id: 'banos',         name: 'Baños y Cocinas',       icon: '🚿', image: 'https://images.unsplash.com/photo-1552321901-5a129ed45efd?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #06b6d4, #0891b2)' },
-    { id: 'decoracion',    name: 'Decohogar',             icon: '', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #f43f5e, #e11d48)' },
-    { id: 'mascotas',      name: 'Mascotas',              icon: '🐾', image: 'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #f59e0b, #d97706)' },
-    { id: 'car',           name: 'Car Center',            icon: '🚗', image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #6366f1, #4f46e5)' },
-    { id: 'constructor',   name: 'Construcción',          icon: '️', image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #78716c, #57534e)' },
-    { id: 'mayor',         name: 'Al por Mayor',          icon: '📦', image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #a3a3a3, #737373)' }
+    { id: 'herramientas',  name: 'Herramientas',          icon: '🔨', image: 'https://images.unsplash.com/photo-1581235024912-4617133d5a81?w=400&h=300&fit=crop', fallback: '#f97316' },
+    { id: 'electrohogar',  name: 'Electrohogar',          icon: '', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop', fallback: '#3b82f6' },
+    { id: 'muebles',       name: 'Muebles y Organización', icon: '', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop', fallback: '#8b5cf6' },
+    { id: 'jardin',        name: 'Aire Libre y Jardín',   icon: '🌿', image: 'https://images.unsplash.com/photo-1558904541-efa843a96f01?w=400&h=300&fit=crop', fallback: '#22c55e' },
+    { id: 'banos',         name: 'Baños y Cocinas',       icon: '🚿', image: 'https://images.unsplash.com/photo-1552321901-5a129ed45efd?w=400&h=300&fit=crop', fallback: '#06b6d4' },
+    { id: 'decoracion',    name: 'Decohogar',             icon: '🎨', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400&h=300&fit=crop', fallback: '#f43f5e' },
+    { id: 'mascotas',      name: 'Mascotas',              icon: '🐾', image: 'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=400&h=300&fit=crop', fallback: '#f59e0b' },
+    { id: 'car',           name: 'Car Center',            icon: '🚗', image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop', fallback: '#6366f1' },
+    { id: 'constructor',   name: 'Construcción',          icon: '🏗️', image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=300&fit=crop', fallback: '#78716c' },
+    { id: 'mayor',         name: 'Al por Mayor',          icon: '📦', image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop', fallback: '#a3a3a3' }
   ],
   
   products: [
@@ -570,14 +573,7 @@ const KNOWLEDGE_BASE = {
     { q: "¿Hacen envíos a todo Colombia?", a: "Sí, enviamos a todo el país. Envío gratis en compras mayores a $199.900.", keywords: ["envío", "domicilio", "entrega", "ciudad"] },
     { q: "¿Aceptan Nequi o Daviplata?", a: "Sí, aceptamos Nequi, Daviplata, Movii, tarjetas de crédito/débito, efectivo contraentrega y transferencia bancaria.", keywords: ["nequi", "daviplata", "movii", "pago", "pagar"] },
     { q: "¿Qué garantía tienen los productos?", a: "Herramientas eléctricas: 1-2 años. Electrodomésticos: 1 año. Muebles: 6 meses.", keywords: ["garantía", "garantia", "dañado", "no funciona"] }
-  ],
-
-  recommendations: {
-    "pared concreto": { products: [1, 3], message: "Para pared de concreto necesitas un taladro percutor con buena potencia." },
-    "pintar casa": { products: [33], message: "Para pintar tu casa necesitas pintura de calidad." },
-    "jardín": { products: [13, 14], message: "Para mantener tu jardín necesitas herramientas adecuadas." },
-    "cocina": { products: [5, 6], message: "Para equipar tu cocina te sugiero estos electrodomésticos." }
-  }
+  ]
 };
 
 // ==================== APP STATE ====================
@@ -629,7 +625,14 @@ const Product = {
     const p = DATA.products.find(x => x.id === data.id);
     if (!p) return;
     const cat = DATA.categories.find(c => c.id === p.cat);
-    document.getElementById('prodImg').innerHTML = `<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'; this.parentElement.style.background='${cat ? cat.fallback : '#ccc'}'">`;
+    const emoji = UI.getCategoryEmoji(p.cat);
+    
+    document.getElementById('prodImg').innerHTML = `
+      <img src="${p.image}" 
+           alt="${p.name}"
+           style="max-width: 100%; max-height: 100%; object-fit: contain;"
+           onerror="handleImageError(this, '${p.brand}', '${p.cat}', '${emoji}')">`;
+    
     document.getElementById('prodBrand').textContent = p.brand;
     document.getElementById('prodName').textContent = p.name;
     document.getElementById('prodRating').textContent = '⭐'.repeat(Math.floor(p.rating)) + ` ${p.rating} (${p.reviews} reseñas)`;
@@ -696,9 +699,13 @@ const Cart = {
     itemsEl.innerHTML = APP.cart.map(item => {
       const p = DATA.products.find(x => x.id === item.id);
       if (!p) return '';
-      const cat = DATA.categories.find(c => c.id === p.cat);
+      const emoji = UI.getCategoryEmoji(p.cat);
       return `<div class="cart-item">
-        <div class="cart-item-img" style="background-image:url('${p.image}'); background: ${cat ? cat.fallback : '#ccc'};" onerror="this.style.backgroundImage='none';"></div>
+        <div class="cart-item-img">
+          <img src="${p.image}" 
+               alt="${p.name}" 
+               onerror="handleImageError(this, '${p.brand}', '${p.cat}', '${emoji}')">
+        </div>
         <div class="cart-item-info">
           <div class="cart-item-name">${p.name}</div>
           <div class="cart-item-brand">${p.brand}</div>
@@ -709,7 +716,7 @@ const Cart = {
           <span class="qty-val">${item.qty}</span>
           <button class="qty-btn" data-qty="${item.id}" data-delta="1">+</button>
         </div>
-        <button class="cart-remove" data-remove="${item.id}">️</button>
+        <button class="cart-remove" data-remove="${item.id}">🗑️</button>
       </div>`;
     }).join('');
 
@@ -771,13 +778,15 @@ const Search = {
 
 const UI = {
   productCard(p) {
-    const cat = DATA.categories.find(c => c.id === p.cat);
-    const fallback = cat ? cat.fallback : 'linear-gradient(135deg, #e5e7eb, #d1d5db)';
+    const emoji = this.getCategoryEmoji(p.cat);
     
     return `<div class="prod-card" data-product="${p.id}">
       ${p.badge ? `<div class="prod-badge">${p.badge}</div>` : ''}
-      <div class="prod-img" style="background-image:url('${p.image}'); background: ${fallback}; background-blend-mode: overlay;" 
-           onerror="this.style.backgroundImage='none';"></div>
+      <div class="prod-img">
+        <img src="${p.image}" 
+             alt="${p.name}"
+             onerror="handleImageError(this, '${p.brand}', '${p.cat}', '${emoji}')">
+      </div>
       <div class="prod-info">
         <div class="prod-brand">${p.brand}</div>
         <div class="prod-name">${p.name}</div>
@@ -792,13 +801,35 @@ const UI = {
     </div>`;
   },
   
+  getCategoryEmoji(catId) {
+    const emojis = {
+      'herramientas': '🔨', 'electrohogar': '🔌', 'muebles': '🪑', 'jardin': '🌿',
+      'banos': '🚿', 'decoracion': '', 'mascotas': '🐾', 'car': '🚗',
+      'constructor': '🏗️', 'mayor': '📦'
+    };
+    return emojis[catId] || '📦';
+  },
+  
+  getHexColor(catId) {
+    const colors = {
+      'herramientas': 'f97316', 'electrohogar': '3b82f6', 'muebles': '8b5cf6', 'jardin': '22c55e',
+      'banos': '06b6d4', 'decoracion': 'f43f5e', 'mascotas': 'f59e0b', 'car': '6366f1',
+      'constructor': '78716c', 'mayor': 'a3a3a3'
+    };
+    return colors[catId] || 'e5e7eb';
+  },
+  
   renderCategories() {
     const grid = document.getElementById('categoriesGrid');
     if (!grid) return;
     grid.innerHTML = DATA.categories.map(c => `
       <div class="cat-card" data-category="${c.id}">
-        <div class="icon" style="background-image:url('${c.image}'); background: ${c.fallback}; background-blend-mode: overlay;" 
-             onerror="this.style.backgroundImage='none';"></div>
+        <div class="icon" style="background: ${c.fallback};">
+          <img src="${c.image}" 
+               alt="${c.name}"
+               style="width: 100%; height: 100%; object-fit: cover;"
+               onerror="handleImageError(this, '${c.icon}', '${c.id}', '${c.icon}')">
+        </div>
         <div class="name">${c.name}</div>
       </div>
     `).join('');
@@ -817,6 +848,36 @@ const UI = {
   }
 };
 
+// ==================== IMAGE FALLBACK HANDLER ====================
+// This function is called globally when an image fails to load.
+// 1. Tries to load a placeholder image.
+// 2. If that fails, shows an emoji.
+function handleImageError(img, brand, catId, emoji) {
+  // Step 1: Load Placeholder Image
+  // We use a reliable placeholder service.
+  const color = UI.getHexColor(catId) || 'cccccc';
+  const text = encodeURIComponent(brand || 'Producto');
+  
+  // Set new source to placeholder
+  img.src = `https://via.placeholder.com/400x400/${color}/ffffff?text=${text}`;
+  
+  // Update onerror to handle the *next* failure (Step 2)
+  img.onerror = function() {
+     // Step 2: Hide image and show emoji
+     this.style.display = 'none';
+     
+     // We need to find the container to insert the emoji if it's not there
+     const container = this.parentElement;
+     if (container && !container.querySelector('.emoji-fallback')) {
+        const emojiSpan = document.createElement('span');
+        emojiSpan.className = 'emoji-fallback';
+        emojiSpan.style.fontSize = '4rem';
+        emojiSpan.textContent = emoji || '📦';
+        container.appendChild(emojiSpan);
+     }
+  };
+}
+
 // ==================== CHATBOT ====================
 const Chatbot = {
   process(input) {
@@ -826,7 +887,7 @@ const Chatbot = {
       return { text: '¡Bienvenido a HomeCenter!  ¿En qué te ayudo hoy?', replies: [{label:'Ver catálogo', cmd:'catalogo'},{label:'Ofertas relámpago', cmd:'ofertas'},{label:'Rastrear pedido', cmd:'pedidos'},{label:'Horarios', cmd:'horario'}] };
     }
     if (t === 'catalogo') {
-      return { text: '🛍️ **Catálogo Completo**\n\n' + DATA.categories.map(c => c.icon + ' ' + c.name).join('\n'), replies: DATA.categories.slice(0,6).map(c => ({label:c.name, cmd:'cat:'+c.id})) };
+      return { text: '️ **Catálogo Completo**\n\n' + DATA.categories.map(c => c.icon + ' ' + c.name).join('\n'), replies: DATA.categories.slice(0,6).map(c => ({label:c.name, cmd:'cat:'+c.id})) };
     }
     if (t === 'ofertas') {
       const items = DATA.products.filter(p => p.badge && p.badge.includes('%'));
@@ -839,13 +900,13 @@ const Chatbot = {
     if (t.startsWith('track:')) {
       const num = t.split(':')[1];
       const o = DATA.orders[num];
-      if (o) return { text: ' **Pedido #' + num + '**\nEstado: ' + o.status + '\nFecha: ' + o.date + '\nTotal: $' + o.total.toLocaleString(), replies: [{label:'Más pedidos', cmd:'pedidos'},{label:'Inicio', cmd:'hola'}] };
-      return { text: ' Pedido no encontrado. Intenta con 1001, 1002 o 1003.', replies: [{label:'Mis pedidos', cmd:'pedidos'}] };
+      if (o) return { text: '📦 **Pedido #' + num + '**\nEstado: ' + o.status + '\nFecha: ' + o.date + '\nTotal: $' + o.total.toLocaleString(), replies: [{label:'Más pedidos', cmd:'pedidos'},{label:'Inicio', cmd:'hola'}] };
+      return { text: '❌ Pedido no encontrado. Intenta con 1001, 1002 o 1003.', replies: [{label:'Mis pedidos', cmd:'pedidos'}] };
     }
     if (t.startsWith('cat:')) {
       const id = t.split(':')[1];
       const cat = DATA.categories.find(c => c.id === id);
-      if (!cat) return { text: '❌ Categoría no encontrada.', replies: [{label:'Ver todas', cmd:'catalogo'}] };
+      if (!cat) return { text: ' Categoría no encontrada.', replies: [{label:'Ver todas', cmd:'catalogo'}] };
       const items = DATA.products.filter(p => p.cat === id);
       return { text: '📦 **' + cat.name + '**\n\n' + items.slice(0,4).map(p => p.name + '\n💚 $' + p.price.toLocaleString()).join('\n\n'), replies: [{label:'Ver detalle', cmd:'detalle:'+items[0]?.id},{label:'Catálogo', cmd:'catalogo'},{label:'Ofertas', cmd:'ofertas'}] };
     }
@@ -853,12 +914,12 @@ const Chatbot = {
       const id = parseInt(t.split(':')[1]);
       const p = DATA.products.find(x => x.id === id);
       if (!p) return { text: '❌ Producto no encontrado.', replies: [{label:'Catálogo', cmd:'catalogo'}] };
-      return { text: '📦 **' + p.name + '**\n🏷️ ' + p.brand + '\n $' + p.price.toLocaleString() + '\n⭐ ' + p.rating + '/5\n📦 ' + p.stock + ' disponibles', replies: [{label:'Agregar al carrito', cmd:'add:'+id},{label:'Comprar ahora', cmd:'buy:'+id},{label:'Volver', cmd:'catalogo'}] };
+      return { text: '📦 **' + p.name + '**\n🏷️ ' + p.brand + '\n💚 $' + p.price.toLocaleString() + '\n⭐ ' + p.rating + '/5\n📦 ' + p.stock + ' disponibles', replies: [{label:'Agregar al carrito', cmd:'add:'+id},{label:'Comprar ahora', cmd:'buy:'+id},{label:'Volver', cmd:'catalogo'}] };
     }
     if (t.startsWith('add:')) {
       const id = parseInt(t.split(':')[1]);
       Cart.add(id);
-      return { text: '✅ Producto agregado al carrito ', replies: [{label:'Ver carrito', cmd:'vercarrito'},{label:'Seguir comprando', cmd:'catalogo'}] };
+      return { text: '✅ Producto agregado al carrito 🛒', replies: [{label:'Ver carrito', cmd:'vercarrito'},{label:'Seguir comprando', cmd:'catalogo'}] };
     }
     if (t.startsWith('buy:')) {
       const id = parseInt(t.split(':')[1]);
@@ -873,7 +934,7 @@ const Chatbot = {
       return { text: '🛒 Abriendo tu carrito...', replies: [] };
     }
     if (t === 'horario') {
-      return { text: ' **Horarios de Atención**\nLunes a Domingo: 7:00 AM — 8:00 PM\n📞 320 88 999 33\n💡 Compra online 24/7', replies: [{label:'Servicios', cmd:'servicios'},{label:'Inicio', cmd:'hola'}] };
+      return { text: ' **Horarios de Atención**\nLunes a Domingo: 7:00 AM — 8:00 PM\n📞 320 88 999 33\n Compra online 24/7', replies: [{label:'Servicios', cmd:'servicios'},{label:'Inicio', cmd:'hola'}] };
     }
     if (t === 'servicios') {
       return { text: '🛠️ **Servicios HomeCenter**\n• Diseño de persianas a medida\n• Puertas personalizadas\n• Alquiler de herramientas\n• Instalación profesional', replies: [{label:'Cotizar', cmd:'hola'},{label:'Inicio', cmd:'hola'}] };
@@ -882,10 +943,10 @@ const Chatbot = {
       return { text: '🛒 Tienes ' + APP.cart.reduce((s,i)=>s+i.qty,0) + ' productos en el carrito.', replies: [{label:'Ver carrito', cmd:'iracarrito'},{label:'Seguir comprando', cmd:'catalogo'}] };
     }
     if (t === 'devolucion' || t === 'garantia' || t === 'devolución' || t === 'garantía') {
-      return { text: ' **Política de Devoluciones y Garantías**\n\n✅ Devoluciones hasta 30 días con factura\n✅ Producto sin usar y empaque original\n✅ Reembolso en 5-7 días hábiles\n\n🛡️ **Garantías:**\n• Herramientas: 1-2 años\n• Electrodomésticos: 1 año\n• Muebles: 6 meses', replies: [{label:'Iniciar devolución', cmd:'asesor'},{label:'Inicio', cmd:'hola'}] };
+      return { text: '🔄 **Política de Devoluciones y Garantías**\n\n✅ Devoluciones hasta 30 días con factura\n✅ Producto sin usar y empaque original\n✅ Reembolso en 5-7 días hábiles\n\n🛡️ **Garantías:**\n• Herramientas: 1-2 años\n• Electrodomésticos: 1 año\n• Muebles: 6 meses', replies: [{label:'Iniciar devolución', cmd:'asesor'},{label:'Inicio', cmd:'hola'}] };
     }
     if (t === 'envio' || t === 'envío') {
-      return { text: '🚚 **Información de Envíos**\n\n✅ Envío gratis en compras > $199.900\n Envío estándar: 3-5 días ($15.900)\n⚡ Envío express: 24-48h ($29.900)\n🏪 Recogida en tienda: GRATIS', replies: [{label:'Rastrear pedido', cmd:'pedidos'},{label:'Inicio', cmd:'hola'}] };
+      return { text: '🚚 **Información de Envíos**\n\n✅ Envío gratis en compras > $199.900\n📍 Envío estándar: 3-5 días ($15.900)\n⚡ Envío express: 24-48h ($29.900)\n🏪 Recogida en tienda: GRATIS', replies: [{label:'Rastrear pedido', cmd:'pedidos'},{label:'Inicio', cmd:'hola'}] };
     }
 
     // Fuzzy search fallback
@@ -894,7 +955,7 @@ const Chatbot = {
       return { text: '🔍 **Resultados**\n\n' + found.slice(0,3).map(p => p.name + '\n💚 $' + p.price.toLocaleString()).join('\n\n'), replies: [{label:'Detalle', cmd:'detalle:'+found[0].id},{label:'Catálogo', cmd:'catalogo'}] };
     }
 
-    return { text: '🤔 ¿En qué te ayudo?\n• Catálogo de productos\n• Ofertas relámpago\n• Rastrear pedido\n• Horarios y servicios', replies: [{label:'Catálogo', cmd:'catalogo'},{label:'Ofertas', cmd:'ofertas'},{label:'Pedidos', cmd:'pedidos'},{label:'Horario', cmd:'horario'}] };
+    return { text: ' ¿En qué te ayudo?\n• Catálogo de productos\n• Ofertas relámpago\n• Rastrear pedido\n• Horarios y servicios', replies: [{label:'Catálogo', cmd:'catalogo'},{label:'Ofertas', cmd:'ofertas'},{label:'Pedidos', cmd:'pedidos'},{label:'Horario', cmd:'horario'}] };
   }
 };
 
@@ -1013,7 +1074,7 @@ function init() {
     const diff = Math.max(0, end - now);
     const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
     const el = document.getElementById('countdown');
-    if(el) el.textContent = ' ' + String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    if(el) el.textContent = '⏰ ' + String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
   };
   update(); setInterval(update, 1000);
 }
