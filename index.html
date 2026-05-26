@@ -201,7 +201,7 @@
 <body>
 
   <div class="top-bar">
-    <div>📍 Encuentra tu tienda &nbsp;|&nbsp; 🚚 Envío gratis en compras &gt; $199.900 &nbsp;|&nbsp; <a href="#" data-nav="servicios">Servicios</a></div>
+    <div> Encuentra tu tienda &nbsp;|&nbsp; 🚚 Envío gratis en compras &gt; $199.900 &nbsp;|&nbsp; <a href="#" data-nav="servicios">Servicios</a></div>
     <div>📞 Línea nacional: 320 88 999 33</div>
   </div>
 
@@ -235,7 +235,7 @@
   <div class="banner">
     <div class="banner-badge">⚡ OFERTAS RELÁMPAGO</div>
     <div>Hasta 55% de ahorro en productos seleccionados. ¡Termina hoy!</div>
-    <div id="countdown">⏰ 04:32:15</div>
+    <div id="countdown"> 04:32:15</div>
   </div>
 
   <div class="view active" id="view-home">
@@ -243,7 +243,7 @@
       <h2 class="section-title">🛍️ Explora por categoría <span class="line"></span></h2>
       <div class="cat-grid" id="categoriesGrid"></div>
 
-      <h2 class="section-title">⚡ Ofertas Relámpago <span class="line"></span></h2>
+      <h2 class="section-title"> Ofertas Relámpago <span class="line"></span></h2>
       <div class="prod-grid" id="flashGrid"></div>
 
       <h2 class="section-title">🌟 Productos Destacados <span class="line"></span></h2>
@@ -429,7 +429,7 @@
       <div class="footer-col"><h4>Atención al Cliente</h4><ul><li><a href="#">Centro de Ayuda</a></li><li><a href="#">Política de Devoluciones</a></li><li><a href="#">Garantías</a></li><li><a href="#">Rastrea tu Pedido</a></li></ul></div>
       <div class="footer-col"><h4>Servicios</h4><ul><li><a href="#">Alquiler de Herramientas</a></li><li><a href="#">Diseño de Persianas</a></li><li><a href="#">Instalación y Montaje</a></li><li><a href="#">Venta al por Mayor</a></li></ul></div>
       <div class="footer-col"><h4>Categorías</h4><ul><li><a href="#" data-category="herramientas">Herramientas</a></li><li><a href="#" data-category="electrohogar">Electrohogar</a></li><li><a href="#" data-category="constructor">Construcción</a></li><li><a href="#" data-category="jardin">Aire Libre y Jardín</a></li></ul></div>
-      <div class="footer-col"><h4>Contacto</h4><ul><li>📞 320 88 999 33</li><li> Bogotá: 307 7115</li><li>✉️ ayuda@homecenter.co</li><li>🕐 Lun-Dom: 7AM-8PM</li></ul></div>
+      <div class="footer-col"><h4>Contacto</h4><ul><li>📞 320 88 999 33</li><li> Bogotá: 307 7115</li><li>✉️ ayuda@homecenter.co</li><li> Lun-Dom: 7AM-8PM</li></ul></div>
     </div>
     <div class="footer-bottom">© 2026 HomeCenter Colombia. Proyecto académico de mejoramiento del hogar.</div>
   </footer>
@@ -437,29 +437,98 @@
 <script>
 'use strict';
 
+// ==================== DATA STORE ====================
+const DATA = {
+  categories: [
+    { id: 'herramientas',  name: 'Herramientas',          icon: '🔨', image: 'https://images.unsplash.com/photo-1581235024912-4617133d5a81?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #f97316, #ea580c)' },
+    { id: 'electrohogar',  name: 'Electrohogar',          icon: '🔌', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #3b82f6, #1d4ed8)' },
+    { id: 'muebles',       name: 'Muebles y Organización', icon: '🪑', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #8b5cf6, #6d28d9)' },
+    { id: 'jardin',        name: 'Aire Libre y Jardín',   icon: '🌿', image: 'https://images.unsplash.com/photo-1558904541-efa843a96f01?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #22c55e, #16a34a)' },
+    { id: 'banos',         name: 'Baños y Cocinas',       icon: '🚿', image: 'https://images.unsplash.com/photo-1552321901-5a129ed45efd?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #06b6d4, #0891b2)' },
+    { id: 'decoracion',    name: 'Decohogar',             icon: '', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #f43f5e, #e11d48)' },
+    { id: 'mascotas',      name: 'Mascotas',              icon: '🐾', image: 'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #f59e0b, #d97706)' },
+    { id: 'car',           name: 'Car Center',            icon: '🚗', image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #6366f1, #4f46e5)' },
+    { id: 'constructor',   name: 'Construcción',          icon: '️', image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #78716c, #57534e)' },
+    { id: 'mayor',         name: 'Al por Mayor',          icon: '📦', image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #a3a3a3, #737373)' }
+  ],
+  
+  products: [
+    // Herramientas (4)
+    { id: 1,  name: 'Taladro Percutor Inalámbrico 20V con 2 Baterías', brand: 'Makita', cat: 'herramientas', price: 459900, oldPrice: 599900, rating: 4.9, reviews: 342, stock: 18, badge: '-23%',  image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=400&fit=crop' },
+    { id: 2,  name: 'Caja Fuerte Digital 25×19×21cm 4.2L', brand: 'Karson', cat: 'herramientas', price: 84900, oldPrice: 94900, rating: 4.4, reviews: 89, stock: 23, badge: '-11%',  image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=400&h=400&fit=crop' },
+    { id: 3,  name: 'Set Llaves Combinadas 24 Piezas Cromo Vanadio', brand: 'Stanley', cat: 'herramientas', price: 129900, oldPrice: 159900, rating: 4.7, reviews: 120, stock: 45, badge: '-19%', image: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400&h=400&fit=crop' },
+    { id: 4,  name: 'Nivel Láser Autonivelante Cruz Verde', brand: 'Bosch', cat: 'herramientas', price: 289900, oldPrice: 349900, rating: 4.8, reviews: 56, stock: 12, badge: null, image: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=400&h=400&fit=crop' },
+
+    // Electrohogar (4)
+    { id: 5,  name: 'Olla Multifuncional 6 Litros con Accesorios', brand: 'Wurden', cat: 'electrohogar', price: 269900, oldPrice: 599900, rating: 4.8, reviews: 256, stock: 15, badge: '-55%',  image: 'https://images.unsplash.com/photo-1585659722903-1b3f45a2b1f3?w=400&h=400&fit=crop' },
+    { id: 6,  name: 'Freidora de Aire Dual 9.5 Litros PowerXL', brand: 'PowerXL', cat: 'electrohogar', price: 389900, oldPrice: 499900, rating: 4.5, reviews: 198, stock: 12, badge: 'Popular', image: 'https://images.unsplash.com/photo-1626147176097-47be94266421?w=400&h=400&fit=crop' },
+    { id: 7,  name: 'Licuadora Industrial 3 Litros 2000W', brand: 'Hamilton Beach', cat: 'electrohogar', price: 199900, oldPrice: 249900, rating: 4.6, reviews: 88, stock: 20, badge: null, image: 'https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=400&h=400&fit=crop' },
+    { id: 8,  name: 'Aspiradora Robot Wifi Mapeo Inteligente', brand: 'iRobot', cat: 'electrohogar', price: 899900, oldPrice: 1199900, rating: 4.9, reviews: 310, stock: 8, badge: '-25%', image: 'https://images.unsplash.com/photo-1558317374-a354d5f6d4da?w=400&h=400&fit=crop' },
+
+    // Muebles (4)
+    { id: 9,  name: 'Silla Escritorio Ergonómica Atlantic Negro', brand: 'Bonno', cat: 'muebles', price: 149900, oldPrice: 359900, rating: 3.9, reviews: 67, stock: 31, badge: '-58%', image: 'https://images.unsplash.com/photo-1505843490538-5133c6c6b0e1?w=400&h=400&fit=crop' },
+    { id: 10, name: 'Estantería Madera 5 Niveles Estilo Industrial', brand: 'HomeCenter', cat: 'muebles', price: 219900, oldPrice: 299900, rating: 4.2, reviews: 45, stock: 25, badge: null, image: 'https://images.unsplash.com/photo-1594620302200-9a762244a156?w=400&h=400&fit=crop' },
+    { id: 11, name: 'Zapatero Organizador 10 Pares con Espejo', brand: 'Bonno', cat: 'muebles', price: 189900, oldPrice: 229900, rating: 4.4, reviews: 78, stock: 18, badge: null, image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400&h=400&fit=crop' },
+    { id: 12, name: 'Mesa Centro Vidrio Templado y Metal', brand: 'Just Home', cat: 'muebles', price: 349900, oldPrice: 449900, rating: 4.5, reviews: 32, stock: 10, badge: '-22%', image: 'https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=400&h=400&fit=crop' },
+
+    // Jardin (4)
+    { id: 13, name: 'Cortacésped Eléctrico 1600W 38cm', brand: 'Tramontina', cat: 'jardin', price: 349900, oldPrice: 429900, rating: 4.6, reviews: 89, stock: 9, badge: 'Últimas', image: 'https://images.unsplash.com/photo-1558904541-efa843a96f01?w=400&h=400&fit=crop' },
+    { id: 14, name: 'Manguera Reforzada 30m con Conectores', brand: 'Gardena', cat: 'jardin', price: 89900, oldPrice: 109900, rating: 4.3, reviews: 55, stock: 40, badge: null, image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&h=400&fit=crop' },
+    { id: 15, name: 'Macetero Decorativo Grande Cerámica', brand: 'HomeCenter', cat: 'jardin', price: 59900, oldPrice: 79900, rating: 4.1, reviews: 22, stock: 60, badge: null, image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=400&h=400&fit=crop' },
+    { id: 16, name: 'Kit Herramientas Jardín 5 Piezas Acero', brand: 'Tramontina', cat: 'jardin', price: 69900, oldPrice: 89900, rating: 4.7, reviews: 41, stock: 35, badge: '-22%', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=400&fit=crop' },
+
+    // Banos (4)
+    { id: 17, name: 'Grifería Monocontrol para Lavamanos Cromada', brand: 'Lorenzetti', cat: 'banos', price: 129900, oldPrice: 179900, rating: 4.3, reviews: 156, stock: 28, badge: null, image: 'https://images.unsplash.com/photo-1585128903994-9788298932a4?w=400&h=400&fit=crop' },
+    { id: 18, name: 'Lavamanos Sobreponer Ovalado Cerámica', brand: 'Corona', cat: 'banos', price: 149900, oldPrice: 189900, rating: 4.5, reviews: 88, stock: 15, badge: null, image: 'https://images.unsplash.com/photo-1620626011761-996317a8f109?w=400&h=400&fit=crop' },
+    { id: 19, name: 'Espejo Baño con Luz LED Antivaho', brand: 'HomeCenter', cat: 'banos', price: 229900, oldPrice: 299900, rating: 4.8, reviews: 64, stock: 12, badge: '-23%', image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=400&h=400&fit=crop' },
+    { id: 20, name: 'Toallero Barra Cromada 60cm', brand: 'Lorenzetti', cat: 'banos', price: 49900, oldPrice: 69900, rating: 4.2, reviews: 33, stock: 50, badge: null, image: 'https://images.unsplash.com/photo-1552321901-5a129ed45efd?w=400&h=400&fit=crop' },
+
+    // Decoracion (4)
+    { id: 21, name: 'Juego de Vajilla Cerámica 16 Piezas', brand: 'Just Home', cat: 'decoracion', price: 149900, oldPrice: 249900, rating: 4.6, reviews: 128, stock: 42, badge: '-40%', image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=400&h=400&fit=crop' },
+    { id: 22, name: 'Lámpara Colgante Comedor Dorada', brand: 'HomeCenter', cat: 'decoracion', price: 199900, oldPrice: 259900, rating: 4.4, reviews: 45, stock: 20, badge: null, image: 'https://images.unsplash.com/photo-1513506003011-3b03c80175e8?w=400&h=400&fit=crop' },
+    { id: 23, name: 'Alfombra Sala 2x3m Pelo Corto Gris', brand: 'HomeCenter', cat: 'decoracion', price: 289900, oldPrice: 359900, rating: 4.3, reviews: 76, stock: 15, badge: '-19%', image: 'https://images.unsplash.com/photo-1575414723220-254e89223849?w=400&h=400&fit=crop' },
+    { id: 24, name: 'Set Cuadros Decorativos 3 Piezas Abstracto', brand: 'Just Home', cat: 'decoracion', price: 89900, oldPrice: 119900, rating: 4.1, reviews: 28, stock: 30, badge: null, image: 'https://images.unsplash.com/photo-1513519288512-a0c0676d3192?w=400&h=400&fit=crop' },
+
+    // Mascotas (4)
+    { id: 25, name: 'Alimento Premium Perro Adulto 20kg', brand: 'Dog Chow', cat: 'mascotas', price: 119900, oldPrice: 139900, rating: 4.7, reviews: 567, stock: 95, badge: null, image: 'https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=400&h=400&fit=crop' },
+    { id: 26, name: 'Cama Ortopédica Perro Talla L', brand: 'Dog Life', cat: 'mascotas', price: 149900, oldPrice: 199900, rating: 4.8, reviews: 112, stock: 25, badge: '-25%', image: 'https://images.unsplash.com/photo-1541781774459-bb2c46d0025c?w=400&h=400&fit=crop' },
+    { id: 27, name: 'Rascador Gato Torre 3 Niveles', brand: 'Cat Life', cat: 'mascotas', price: 189900, oldPrice: 249900, rating: 4.5, reviews: 88, stock: 18, badge: null, image: 'https://images.unsplash.com/photo-1545249390-6b5728c5e56d?w=400&h=400&fit=crop' },
+    { id: 28, name: 'Transportadora Mascota Viaje Aprobada IATA', brand: 'PetSafe', cat: 'mascotas', price: 99900, oldPrice: 129900, rating: 4.6, reviews: 45, stock: 30, badge: '-23%', image: 'https://images.unsplash.com/photo-1591526033657-bb136c11557c?w=400&h=400&fit=crop' },
+
+    // Car (4)
+    { id: 29, name: 'Juego de Llantas 205/55R16 + Instalación', brand: 'Michelin', cat: 'car', price: 899900, oldPrice: 1099900, rating: 4.8, reviews: 234, stock: 40, badge: null, image: 'https://images.unsplash.com/photo-1578844251758-2f71da645217?w=400&h=400&fit=crop' },
+    { id: 30, name: 'Kit Limpieza Auto Profesional 5 Piezas', brand: '3M', cat: 'car', price: 69900, oldPrice: 89900, rating: 4.4, reviews: 78, stock: 50, badge: null, image: 'https://images.unsplash.com/photo-1520183802858-c2916d262373?w=400&h=400&fit=crop' },
+    { id: 31, name: 'Cargador Batería 12V Automático', brand: 'Black+Decker', cat: 'car', price: 129900, oldPrice: 159900, rating: 4.7, reviews: 45, stock: 20, badge: '-19%', image: 'https://images.unsplash.com/photo-1619643999515-257d14221968?w=400&h=400&fit=crop' },
+    { id: 32, name: 'Aceite Sintético 5W-30 4 Litros', brand: 'Mobil', cat: 'car', price: 89900, oldPrice: 109900, rating: 4.9, reviews: 342, stock: 100, badge: null, image: 'https://images.unsplash.com/photo-1635784046021-0034046c5d28?w=400&h=400&fit=crop' },
+
+    // Constructor (4)
+    { id: 33, name: 'Set de Pintura Antihongos 19 Litros', brand: 'Corona', cat: 'constructor', price: 189900, oldPrice: 229900, rating: 4.7, reviews: 445, stock: 67, badge: null, image: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=400&h=400&fit=crop' },
+    { id: 34, name: 'Cemento Gris Portland Tipo 1 50kg', brand: 'Cemex', cat: 'constructor', price: 28900, oldPrice: 32900, rating: 4.5, reviews: 892, stock: 450, badge: 'Mayorista', image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&h=400&fit=crop' },
+    { id: 35, name: 'Pegacor Cerámica Exterior 20kg', brand: 'Sika', cat: 'constructor', price: 35900, oldPrice: 42900, rating: 4.6, reviews: 234, stock: 120, badge: null, image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=400&fit=crop' },
+    { id: 36, name: 'Bloque Concreto 10x20x40 cm', brand: 'Prefabricados', cat: 'constructor', price: 3500, oldPrice: 4200, rating: 4.3, reviews: 156, stock: 1000, badge: null, image: 'https://images.unsplash.com/photo-1590074989770-89742165bbb4?w=400&h=400&fit=crop' },
+
+    // Mayor (4)
+    { id: 37, name: 'Pack Tornillos Drywall 1000 Unidades', brand: 'Surtimax', cat: 'mayor', price: 45900, oldPrice: 59900, rating: 4.8, reviews: 567, stock: 200, badge: 'Bulk', image: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400&h=400&fit=crop' },
+    { id: 38, name: 'Guantes Trabajo Caja 12 Pares', brand: '3M', cat: 'mayor', price: 35900, oldPrice: 45900, rating: 4.5, reviews: 123, stock: 50, badge: null, image: 'https://images.unsplash.com/photo-1581235024912-4617133d5a81?w=400&h=400&fit=crop' },
+    { id: 39, name: 'Discos Corte Metal Caja 25 Unidades', brand: 'Bosch', cat: 'mayor', price: 55900, oldPrice: 69900, rating: 4.7, reviews: 234, stock: 80, badge: null, image: 'https://images.unsplash.com/photo-1565610222536-ef125c450446?w=400&h=400&fit=crop' },
+    { id: 40, name: 'Cinta Aislante Negra Rollo 50 Metros', brand: 'Scotch', cat: 'mayor', price: 25900, oldPrice: 32900, rating: 4.6, reviews: 89, stock: 150, badge: null, image: 'https://images.unsplash.com/photo-1615811361523-83d532d8823b?w=400&h=400&fit=crop' }
+  ],
+  
+  orders: {
+    '1001': { status:'Entregado', date:'23 Mayo 2026', total:459900, items:[{id:1,qty:1}] },
+    '1002': { status:'En tránsito', date:'26 Mayo 2026', total:269900, items:[{id:5,qty:1}] },
+    '1003': { status:'Procesando', date:'28 Mayo 2026', total:234800, items:[{id:9,qty:1},{id:2,qty:1}] }
+  }
+};
+
 // ==================== KNOWLEDGE BASE ====================
 const KNOWLEDGE_BASE = {
   policies: {
     returns: {
       window: "30 días calendario",
-      requirements: [
-        "Factura de compra original",
-        "Producto sin usar ni instalar",
-        "Empaque original en buen estado",
-        "Accesorios y manuales completos"
-      ],
-      process: [
-        "Acércate a cualquier tienda HomeCenter con tu factura",
-        "Un asesor validará el estado del producto",
-        "Se procesará el reembolso en 5-7 días hábiles",
-        "El dinero se devolverá por el mismo medio de pago"
-      ],
-      exceptions: [
-        "Productos personalizados (persianas, puertas a medida)",
-        "Herramientas eléctricas con sello de garantía roto",
-        "Pintura ya mezclada o abierta",
-        "Productos en oferta de liquidación"
-      ],
+      requirements: ["Factura de compra original", "Producto sin usar ni instalar", "Empaque original en buen estado", "Accesorios y manuales completos"],
+      process: ["Acércate a cualquier tienda HomeCenter con tu factura", "Un asesor validará el estado del producto", "Se procesará el reembolso en 5-7 días hábiles", "El dinero se devolverá por el mismo medio de pago"],
+      exceptions: ["Productos personalizados", "Herramientas eléctricas con sello de garantía roto", "Pintura ya mezclada o abierta", "Productos en oferta de liquidación"],
       contact: "Para devoluciones online, llama al 320 88 999 33"
     },
     warranties: {
@@ -467,13 +536,7 @@ const KNOWLEDGE_BASE = {
       electrodomesticos: "1 año de garantía de fábrica",
       muebles: "6 meses contra defectos de fabricación",
       griferia: "5 años en acabado cromado, 1 año en mecanismo",
-      pintura: "Garantía de cubrimiento si se aplica según instrucciones",
-      process: [
-        "Conserva tu factura de compra",
-        "Contacta al servicio al cliente",
-        "Lleva el producto a centro de servicio autorizado",
-        "Tiempo de respuesta: 15 días hábiles"
-      ]
+      process: ["Conserva tu factura de compra", "Contacta al servicio al cliente", "Lleva el producto a centro de servicio autorizado"]
     },
     shipping: {
       free_threshold: 199900,
@@ -484,14 +547,7 @@ const KNOWLEDGE_BASE = {
       tracking: "Recibirás número de guía por correo"
     },
     payments: {
-      methods: [
-        "Tarjetas de crédito (Visa, Mastercard, Amex)",
-        "Tarjetas de débito",
-        "Efectivo contraentrega (recargo $5.000)",
-        "Nequi, Daviplata, Movii",
-        "Transferencia bancaria",
-        "Pago en puntos Baloto/Efecty"
-      ],
+      methods: ["Tarjetas de crédito (Visa, Mastercard, Amex)", "Tarjetas de débito", "Efectivo contraentrega (recargo $5.000)", "Nequi, Daviplata, Movii", "Transferencia bancaria"],
       installments: "Hasta 24 meses sin interés con tarjetas seleccionadas",
       security: "Pagos 100% seguros con encriptación SSL"
     },
@@ -509,199 +565,18 @@ const KNOWLEDGE_BASE = {
   },
   
   faq: [
-    {
-      q: "¿Cómo rastreo mi pedido?",
-      a: "Ingresa tu número de pedido de 4 dígitos y te mostraré el estado. También puedes revisar tu correo electrónico donde enviamos el número de guía.",
-      keywords: ["rastrear", "seguimiento", "dónde está", "pedido", "envío"]
-    },
-    {
-      q: "¿Puedo cambiar un producto?",
-      a: "Sí, tienes 30 días para cambios o devoluciones. El producto debe estar sin usar, con empaque original y factura. El reembolso se hace en 5-7 días hábiles.",
-      keywords: ["cambiar", "devolver", "retorno", "reembolso"]
-    },
-    {
-      q: "¿Hacen envíos a todo Colombia?",
-      a: "Sí, enviamos a todo el país. Envío gratis en compras mayores a $199.900. Envío estándar $15.900 (3-5 días) o express $29.900 (24-48h).",
-      keywords: ["envío", "domicilio", "entrega", "ciudad"]
-    },
-    {
-      q: "¿Aceptan Nequi o Daviplata?",
-      a: "Sí, aceptamos Nequi, Daviplata, Movii, tarjetas de crédito/débito, efectivo contraentrega y transferencia bancaria.",
-      keywords: ["nequi", "daviplata", "movii", "pago", "pagar"]
-    },
-    {
-      q: "¿Tienen servicio de instalación?",
-      a: "Sí, ofrecemos instalación profesional de persianas, puertas, grifería, y montaje de muebles. Consulta disponibilidad y costos en tienda o por chat.",
-      keywords: ["instalación", "montaje", "instalar", "servicio técnico"]
-    },
-    {
-      q: "¿Puedo alquilar herramientas?",
-      a: "Sí, tenemos servicio de alquiler de herramientas especializadas por horas, días o semanas. Incluye asesoría de uso. Disponible en tiendas seleccionadas.",
-      keywords: ["alquilar", "rentar", "alquiler", "herramientas"]
-    },
-    {
-      q: "¿Qué garantía tienen los productos?",
-      a: "Herramientas eléctricas: 1-2 años. Electrodomésticos: 1 año. Muebles: 6 meses. Grifería: 5 años en acabado. Conserva tu factura para hacer válido el reclamo.",
-      keywords: ["garantía", "garantia", "dañado", "no funciona"]
-    },
-    {
-      q: "¿Puedo recoger en tienda?",
-      a: "Sí, la recogida en tienda es GRATIS. Selecciona 'Recoger en tienda' al finalizar tu compra. Te notificaremos cuando esté listo (usualmente 2-4 horas).",
-      keywords: ["recoger", "retirar", "tienda", "pickup"]
-    }
+    { q: "¿Cómo rastreo mi pedido?", a: "Ingresa tu número de pedido de 4 dígitos y te mostraré el estado. También puedes revisar tu correo electrónico donde enviamos el número de guía.", keywords: ["rastrear", "seguimiento", "dónde está", "pedido", "envío"] },
+    { q: "¿Puedo cambiar un producto?", a: "Sí, tienes 30 días para cambios o devoluciones. El producto debe estar sin usar, con empaque original y factura.", keywords: ["cambiar", "devolver", "retorno", "reembolso"] },
+    { q: "¿Hacen envíos a todo Colombia?", a: "Sí, enviamos a todo el país. Envío gratis en compras mayores a $199.900.", keywords: ["envío", "domicilio", "entrega", "ciudad"] },
+    { q: "¿Aceptan Nequi o Daviplata?", a: "Sí, aceptamos Nequi, Daviplata, Movii, tarjetas de crédito/débito, efectivo contraentrega y transferencia bancaria.", keywords: ["nequi", "daviplata", "movii", "pago", "pagar"] },
+    { q: "¿Qué garantía tienen los productos?", a: "Herramientas eléctricas: 1-2 años. Electrodomésticos: 1 año. Muebles: 6 meses.", keywords: ["garantía", "garantia", "dañado", "no funciona"] }
   ],
 
   recommendations: {
-    "pared concreto": {
-      products: [1, 3],
-      message: "Para pared de concreto necesitas un taladro percutor con buena potencia. Te recomiendo:"
-    },
-    "pintar casa": {
-      products: [15],
-      message: "Para pintar tu casa necesitas:"
-    },
-    "jardín": {
-      products: [17, 18],
-      message: "Para mantener tu jardín necesitas:"
-    },
-    "cocina": {
-      products: [5, 6],
-      message: "Para equipar tu cocina te sugiero:"
-    }
-  }
-};
-
-// ==================== DATA STORE ====================
-const DATA = {
-  categories: [
-    { id: 'herramientas',  name: 'Herramientas',          icon: '🔨', image: 'https://images.unsplash.com/photo-1581235024912-4617133d5a81?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #f97316, #ea580c)' },
-    { id: 'electrohogar',  name: 'Electrohogar',          icon: '', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #3b82f6, #1d4ed8)' },
-    { id: 'muebles',       name: 'Muebles y Organización', icon: '🪑', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #8b5cf6, #6d28d9)' },
-    { id: 'jardin',        name: 'Aire Libre y Jardín',   icon: '', image: 'https://images.unsplash.com/photo-1558904541-efa843a96f01?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #22c55e, #16a34a)' },
-    { id: 'banos',         name: 'Baños y Cocinas',       icon: '🚿', image: 'https://images.unsplash.com/photo-1552321901-5a129ed45efd?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #06b6d4, #0891b2)' },
-    { id: 'decoracion',    name: 'Decohogar',             icon: '🎨', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #f43f5e, #e11d48)' },
-    { id: 'mascotas',      name: 'Mascotas',              icon: '🐾', image: 'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #f59e0b, #d97706)' },
-    { id: 'car',           name: 'Car Center',            icon: '🚗', image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #6366f1, #4f46e5)' },
-    { id: 'constructor',   name: 'Construcción',          icon: '️', image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #78716c, #57534e)' },
-    { id: 'mayor',         name: 'Al por Mayor',          icon: '📦', image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop', fallback: 'linear-gradient(135deg, #a3a3a3, #737373)' }
-  ],
-  
-  products: [
-    // HERRAMIENTAS (4)
-    { id: 1,  name: 'Taladro Percutor Inalámbrico 20V con 2 Baterías', brand: 'Makita', cat: 'herramientas', price: 459900, oldPrice: 599900, rating: 4.9, reviews: 342, stock: 18, badge: '-23%',  image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=400&fit=crop' },
-    { id: 2,  name: 'Caja Fuerte Digital 25×19×21cm 4.2L', brand: 'Karson', cat: 'herramientas', price: 84900, oldPrice: 94900, rating: 4.4, reviews: 89, stock: 23, badge: '-11%',  image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=400&h=400&fit=crop' },
-    { id: 3,  name: 'Set Llaves Combinadas 24 Piezas Cromo Vanadio', brand: 'Stanley', cat: 'herramientas', price: 129900, oldPrice: 159900, rating: 4.7, reviews: 120, stock: 45, badge: '-19%', image: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400&h=400&fit=crop' },
-    { id: 4,  name: 'Nivel Láser Autonivelante Cruz Verde', brand: 'Bosch', cat: 'herramientas', price: 289900, oldPrice: 349900, rating: 4.8, reviews: 56, stock: 12, badge: null, image: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=400&h=400&fit=crop' },
-
-    // ELECTROHOGAR (4)
-    { id: 5,  name: 'Olla Multifuncional 6 Litros con Accesorios', brand: 'Wurden', cat: 'electrohogar', price: 269900, oldPrice: 599900, rating: 4.8, reviews: 256, stock: 15, badge: '-55%',  image: 'https://images.unsplash.com/photo-1585659722903-1b3f45a2b1f3?w=400&h=400&fit=crop' },
-    { id: 6,  name: 'Freidora de Aire Dual 9.5 Litros PowerXL', brand: 'PowerXL', cat: 'electrohogar', price: 389900, oldPrice: 499900, rating: 4.5, reviews: 198, stock: 12, badge: 'Popular', image: 'https://images.unsplash.com/photo-1626147176097-47be94266421?w=400&h=400&fit=crop' },
-    { id: 7,  name: 'Licuadora Industrial 3 Litros 2000W', brand: 'Hamilton Beach', cat: 'electrohogar', price: 199900, oldPrice: 249900, rating: 4.6, reviews: 88, stock: 20, badge: null, image: 'https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=400&h=400&fit=crop' },
-    { id: 8,  name: 'Aspiradora Robot Wifi Mapeo Inteligente', brand: 'iRobot', cat: 'electrohogar', price: 899900, oldPrice: 1199900, rating: 4.9, reviews: 310, stock: 8, badge: '-25%', image: 'https://images.unsplash.com/photo-1558317374-a354d5f6d4da?w=400&h=400&fit=crop' },
-
-    // MUEBLES (4)
-    { id: 9,  name: 'Silla Escritorio Ergonómica Atlantic Negro', brand: 'Bonno', cat: 'muebles', price: 149900, oldPrice: 359900, rating: 3.9, reviews: 67, stock: 31, badge: '-58%', image: 'https://images.unsplash.com/photo-1505843490538-5133c6c6b0e1?w=400&h=400&fit=crop' },
-    { id: 10, name: 'Estantería Madera 5 Niveles Estilo Industrial', brand: 'HomeCenter', cat: 'muebles', price: 219900, oldPrice: 299900, rating: 4.2, reviews: 45, stock: 25, badge: null, image: 'https://images.unsplash.com/photo-1594620302200-9a762244a156?w=400&h=400&fit=crop' },
-    { id: 11, name: 'Zapatero Organizador 10 Pares con Espejo', brand: 'Bonno', cat: 'muebles', price: 189900, oldPrice: 229900, rating: 4.4, reviews: 78, stock: 18, badge: null, image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400&h=400&fit=crop' },
-    { id: 12, name: 'Mesa Centro Vidrio Templado y Metal', brand: 'Just Home', cat: 'muebles', price: 349900, oldPrice: 449900, rating: 4.5, reviews: 32, stock: 10, badge: '-22%', image: 'https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=400&h=400&fit=crop' },
-
-    // JARDIN (4)
-    { id: 13, name: 'Cortacésped Eléctrico 1600W 38cm', brand: 'Tramontina', cat: 'jardin', price: 349900, oldPrice: 429900, rating: 4.6, reviews: 89, stock: 9, badge: 'Últimas', image: 'https://images.unsplash.com/photo-1558904541-efa843a96f01?w=400&h=400&fit=crop' },
-    { id: 14, name: 'Manguera Reforzada 30m con Conectores', brand: 'Gardena', cat: 'jardin', price: 89900, oldPrice: 109900, rating: 4.3, reviews: 55, stock: 40, badge: null, image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&h=400&fit=crop' },
-    { id: 15, name: 'Macetero Decorativo Grande Cerámica', brand: 'HomeCenter', cat: 'jardin', price: 59900, oldPrice: 79900, rating: 4.1, reviews: 22, stock: 60, badge: null, image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=400&h=400&fit=crop' },
-    { id: 16, name: 'Kit Herramientas Jardín 5 Piezas Acero', brand: 'Tramontina', cat: 'jardin', price: 69900, oldPrice: 89900, rating: 4.7, reviews: 41, stock: 35, badge: '-22%', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=400&fit=crop' },
-
-    // BAÑOS (4)
-    { id: 17, name: 'Grifería Monocontrol para Lavamanos Cromada', brand: 'Lorenzetti', cat: 'banos', price: 129900, oldPrice: 179900, rating: 4.3, reviews: 156, stock: 28, badge: null, image: 'https://images.unsplash.com/photo-1585128903994-9788298932a4?w=400&h=400&fit=crop' },
-    { id: 18, name: 'Lavamanos Sobreponer Ovalado Cerámica', brand: 'Corona', cat: 'banos', price: 149900, oldPrice: 189900, rating: 4.5, reviews: 88, stock: 15, badge: null, image: 'https://images.unsplash.com/photo-1620626011761-996317a8f109?w=400&h=400&fit=crop' },
-    { id: 19, name: 'Espejo Baño con Luz LED Antivaho', brand: 'HomeCenter', cat: 'banos', price: 229900, oldPrice: 299900, rating: 4.8, reviews: 64, stock: 12, badge: '-23%', image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=400&h=400&fit=crop' },
-    { id: 20, name: 'Toallero Barra Cromada 60cm', brand: 'Lorenzetti', cat: 'banos', price: 49900, oldPrice: 69900, rating: 4.2, reviews: 33, stock: 50, badge: null, image: 'https://images.unsplash.com/photo-1552321901-5a129ed45efd?w=400&h=400&fit=crop' },
-
-    // DECORACION (4)
-    { id: 21, name: 'Juego de Vajilla Cerámica 16 Piezas', brand: 'Just Home', cat: 'decoracion', price: 149900, oldPrice: 249900, rating: 4.6, reviews: 128, stock: 42, badge: '-40%', image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=400&h=400&fit=crop' },
-    { id: 22, name: 'Lámpara Colgante Comedor Dorada', brand: 'HomeCenter', cat: 'decoracion', price: 199900, oldPrice: 259900, rating: 4.4, reviews: 45, stock: 20, badge: null, image: 'https://images.unsplash.com/photo-1513506003011-3b03c80175e8?w=400&h=400&fit=crop' },
-    { id: 23, name: 'Alfombra Sala 2x3m Pelo Corto Gris', brand: 'HomeCenter', cat: 'decoracion', price: 289900, oldPrice: 359900, rating: 4.3, reviews: 76, stock: 15, badge: '-19%', image: 'https://images.unsplash.com/photo-1575414723220-254e89223849?w=400&h=400&fit=crop' },
-    { id: 24, name: 'Set Cuadros Decorativos 3 Piezas Abstracto', brand: 'Just Home', cat: 'decoracion', price: 89900, oldPrice: 119900, rating: 4.1, reviews: 28, stock: 30, badge: null, image: 'https://images.unsplash.com/photo-1513519288512-a0c0676d3192?w=400&h=400&fit=crop' },
-
-    // MASCOTAS (4)
-    { id: 25, name: 'Alimento Premium Perro Adulto 20kg', brand: 'Dog Chow', cat: 'mascotas', price: 119900, oldPrice: 139900, rating: 4.7, reviews: 567, stock: 95, badge: null, image: 'https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=400&h=400&fit=crop' },
-    { id: 26, name: 'Cama Ortopédica Perro Talla L', brand: 'Dog Life', cat: 'mascotas', price: 149900, oldPrice: 199900, rating: 4.8, reviews: 112, stock: 25, badge: '-25%', image: 'https://images.unsplash.com/photo-1541781774459-bb2c46d0025c?w=400&h=400&fit=crop' },
-    { id: 27, name: 'Rascador Gato Torre 3 Niveles', brand: 'Cat Life', cat: 'mascotas', price: 189900, oldPrice: 249900, rating: 4.5, reviews: 88, stock: 18, badge: null, image: 'https://images.unsplash.com/photo-1545249390-6b5728c5e56d?w=400&h=400&fit=crop' },
-    { id: 28, name: 'Transportadora Mascota Viaje Aprobada IATA', brand: 'PetSafe', cat: 'mascotas', price: 99900, oldPrice: 129900, rating: 4.6, reviews: 45, stock: 30, badge: '-23%', image: 'https://images.unsplash.com/photo-1591526033657-bb136c11557c?w=400&h=400&fit=crop' },
-
-    // CAR CENTER (4)
-    { id: 29, name: 'Juego de Llantas 205/55R16 + Instalación', brand: 'Michelin', cat: 'car', price: 899900, oldPrice: 1099900, rating: 4.8, reviews: 234, stock: 40, badge: null, image: 'https://images.unsplash.com/photo-1578844251758-2f71da645217?w=400&h=400&fit=crop' },
-    { id: 30, name: 'Kit Limpieza Auto Profesional 5 Piezas', brand: '3M', cat: 'car', price: 69900, oldPrice: 89900, rating: 4.4, reviews: 78, stock: 50, badge: null, image: 'https://images.unsplash.com/photo-1520183802858-c2916d262373?w=400&h=400&fit=crop' },
-    { id: 31, name: 'Cargador Batería 12V Automático', brand: 'Black+Decker', cat: 'car', price: 129900, oldPrice: 159900, rating: 4.7, reviews: 45, stock: 20, badge: '-19%', image: 'https://images.unsplash.com/photo-1619643999515-257d14221968?w=400&h=400&fit=crop' },
-    { id: 32, name: 'Aceite Sintético 5W-30 4 Litros', brand: 'Mobil', cat: 'car', price: 89900, oldPrice: 109900, rating: 4.9, reviews: 342, stock: 100, badge: null, image: 'https://images.unsplash.com/photo-1635784046021-0034046c5d28?w=400&h=400&fit=crop' },
-
-    // CONSTRUCTOR (4)
-    { id: 33, name: 'Set de Pintura Antihongos 19 Litros', brand: 'Corona', cat: 'constructor', price: 189900, oldPrice: 229900, rating: 4.7, reviews: 445, stock: 67, badge: null, image: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=400&h=400&fit=crop' },
-    { id: 34, name: 'Cemento Gris Portland Tipo 1 50kg', brand: 'Cemex', cat: 'constructor', price: 28900, oldPrice: 32900, rating: 4.5, reviews: 892, stock: 450, badge: 'Mayorista', image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&h=400&fit=crop' },
-    { id: 35, name: 'Pegacor Cerámica Exterior 20kg', brand: 'Sika', cat: 'constructor', price: 35900, oldPrice: 42900, rating: 4.6, reviews: 234, stock: 120, badge: null, image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=400&fit=crop' },
-    { id: 36, name: 'Bloque Concreto 10x20x40 cm', brand: 'Prefabricados', cat: 'constructor', price: 3500, oldPrice: 4200, rating: 4.3, reviews: 156, stock: 1000, badge: null, image: 'https://images.unsplash.com/photo-1590074989770-89742165bbb4?w=400&h=400&fit=crop' },
-
-    // MAYOR (4)
-    { id: 37, name: 'Pack Tornillos Drywall 1000 Unidades', brand: 'Surtimax', cat: 'mayor', price: 45900, oldPrice: 59900, rating: 4.8, reviews: 567, stock: 200, badge: 'Bulk', image: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400&h=400&fit=crop' },
-    { id: 38, name: 'Guantes Trabajo Caja 12 Pares', brand: '3M', cat: 'mayor', price: 35900, oldPrice: 45900, rating: 4.5, reviews: 123, stock: 50, badge: null, image: 'https://images.unsplash.com/photo-1581235024912-4617133d5a81?w=400&h=400&fit=crop' },
-    { id: 39, name: 'Discos Corte Metal Caja 25 Unidades', brand: 'Bosch', cat: 'mayor', price: 55900, oldPrice: 69900, rating: 4.7, reviews: 234, stock: 80, badge: null, image: 'https://images.unsplash.com/photo-1565610222536-ef125c450446?w=400&h=400&fit=crop' },
-    { id: 40, name: 'Cinta Aislante Negra Rollo 50 Metros', brand: 'Scotch', cat: 'mayor', price: 25900, oldPrice: 32900, rating: 4.6, reviews: 89, stock: 150, badge: null, image: 'https://images.unsplash.com/photo-1615811361523-83d532d8823b?w=400&h=400&fit=crop' }
-  ],
-  
-  orders: {
-    '1001': { status:'Entregado', date:'23 Mayo 2026', total:459900, items:[{id:1,qty:1}] },
-    '1002': { status:'En tránsito', date:'26 Mayo 2026', total:269900, items:[{id:5,qty:1}] },
-    '1003': { status:'Procesando', date:'28 Mayo 2026', total:234800, items:[{id:9,qty:1},{id:2,qty:1}] }
-  }
-};
-
-// ==================== UI HELPERS ====================
-const UI = {
-  productCard(p) {
-    // Get category fallback gradient
-    const cat = DATA.categories.find(c => c.id === p.cat);
-    const fallback = cat ? cat.fallback : 'linear-gradient(135deg, #e5e7eb, #d1d5db)';
-    
-    return `<div class="prod-card" data-product="${p.id}">
-      ${p.badge ? `<div class="prod-badge">${p.badge}</div>` : ''}
-      <div class="prod-img" style="background-image:url('${p.image}'); background: ${fallback}; background-blend-mode: overlay; background-size: cover;" 
-           onerror="this.style.backgroundImage='none'; this.style.background='${fallback}';"></div>
-      <div class="prod-info">
-        <div class="prod-brand">${p.brand}</div>
-        <div class="prod-name">${p.name}</div>
-        <div class="prod-rating">${'⭐'.repeat(Math.floor(p.rating))} ${p.rating}</div>
-        <div class="prod-prices">
-          <span class="prod-price">$${p.price.toLocaleString()}</span>
-          ${p.oldPrice ? `<span class="prod-old">$${p.oldPrice.toLocaleString()}</span>` : ''}
-        </div>
-        <div class="prod-stock">📦 ${p.stock} disponibles</div>
-        <button class="btn-add" data-add="${p.id}">Agregar al carrito</button>
-      </div>
-    </div>`;
-  },
-  
-  renderCategories() {
-    const grid = document.getElementById('categoriesGrid');
-    if (!grid) return;
-    grid.innerHTML = DATA.categories.map(c => `
-      <div class="cat-card" data-category="${c.id}">
-        <div class="icon" style="background-image:url('${c.image}'); background: ${c.fallback}; background-blend-mode: overlay; background-size: cover;" 
-             onerror="this.style.backgroundImage='none'; this.style.background='${c.fallback}';"></div>
-        <div class="name">${c.name}</div>
-      </div>
-    `).join('');
-  },
-  
-  renderFlash() {
-    const grid = document.getElementById('flashGrid');
-    if (!grid) return;
-    grid.innerHTML = DATA.products.filter(p => p.badge && p.badge.includes('%')).map(p => this.productCard(p)).join('');
-  },
-  
-  renderFeatured() {
-    const grid = document.getElementById('featuredGrid');
-    if (!grid) return;
-    grid.innerHTML = DATA.products.filter(p => !p.badge || !p.badge.includes('%')).slice(0, 8).map(p => this.productCard(p)).join('');
+    "pared concreto": { products: [1, 3], message: "Para pared de concreto necesitas un taladro percutor con buena potencia." },
+    "pintar casa": { products: [33], message: "Para pintar tu casa necesitas pintura de calidad." },
+    "jardín": { products: [13, 14], message: "Para mantener tu jardín necesitas herramientas adecuadas." },
+    "cocina": { products: [5, 6], message: "Para equipar tu cocina te sugiero estos electrodomésticos." }
   }
 };
 
@@ -736,7 +611,6 @@ const Router = {
   }
 };
 
-// ==================== CATEGORY VIEW ====================
 const Category = {
   render(data) {
     const cat = DATA.categories.find(c => c.id === data.id);
@@ -750,13 +624,12 @@ const Category = {
   }
 };
 
-// ==================== PRODUCT DETAIL VIEW ====================
 const Product = {
   render(data) {
     const p = DATA.products.find(x => x.id === data.id);
     if (!p) return;
     const cat = DATA.categories.find(c => c.id === p.cat);
-    document.getElementById('prodImg').innerHTML = `<img src="${p.image}" alt="${p.name}">`;
+    document.getElementById('prodImg').innerHTML = `<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'; this.parentElement.style.background='${cat ? cat.fallback : '#ccc'}'">`;
     document.getElementById('prodBrand').textContent = p.brand;
     document.getElementById('prodName').textContent = p.name;
     document.getElementById('prodRating').textContent = '⭐'.repeat(Math.floor(p.rating)) + ` ${p.rating} (${p.reviews} reseñas)`;
@@ -781,7 +654,6 @@ const Product = {
   }
 };
 
-// ==================== CART ====================
 const Cart = {
   save() { localStorage.setItem('hc_cart', JSON.stringify(APP.cart)); this.updateCount(); },
   updateCount() {
@@ -824,8 +696,9 @@ const Cart = {
     itemsEl.innerHTML = APP.cart.map(item => {
       const p = DATA.products.find(x => x.id === item.id);
       if (!p) return '';
+      const cat = DATA.categories.find(c => c.id === p.cat);
       return `<div class="cart-item">
-        <div class="cart-item-img" style="background-image:url('${p.image}')"></div>
+        <div class="cart-item-img" style="background-image:url('${p.image}'); background: ${cat ? cat.fallback : '#ccc'};" onerror="this.style.backgroundImage='none';"></div>
         <div class="cart-item-info">
           <div class="cart-item-name">${p.name}</div>
           <div class="cart-item-brand">${p.brand}</div>
@@ -836,7 +709,7 @@ const Cart = {
           <span class="qty-val">${item.qty}</span>
           <button class="qty-btn" data-qty="${item.id}" data-delta="1">+</button>
         </div>
-        <button class="cart-remove" data-remove="${item.id}">🗑️</button>
+        <button class="cart-remove" data-remove="${item.id}">️</button>
       </div>`;
     }).join('');
 
@@ -853,7 +726,6 @@ const Cart = {
   }
 };
 
-// ==================== CHECKOUT ====================
 const Checkout = {
   render() {
     const el = document.getElementById('orderSummary');
@@ -871,7 +743,6 @@ const Checkout = {
   }
 };
 
-// ==================== ORDERS ====================
 const Orders = {
   render() {
     const el = document.getElementById('ordersList');
@@ -885,7 +756,6 @@ const Orders = {
   }
 };
 
-// ==================== SEARCH ====================
 const Search = {
   render(data) {
     const q = (data.query || '').toLowerCase().trim();
@@ -899,12 +769,15 @@ const Search = {
   }
 };
 
-// ==================== UI HELPERS ====================
 const UI = {
   productCard(p) {
+    const cat = DATA.categories.find(c => c.id === p.cat);
+    const fallback = cat ? cat.fallback : 'linear-gradient(135deg, #e5e7eb, #d1d5db)';
+    
     return `<div class="prod-card" data-product="${p.id}">
       ${p.badge ? `<div class="prod-badge">${p.badge}</div>` : ''}
-      <div class="prod-img" style="background-image:url('${p.image}')"></div>
+      <div class="prod-img" style="background-image:url('${p.image}'); background: ${fallback}; background-blend-mode: overlay;" 
+           onerror="this.style.backgroundImage='none';"></div>
       <div class="prod-info">
         <div class="prod-brand">${p.brand}</div>
         <div class="prod-name">${p.name}</div>
@@ -924,7 +797,8 @@ const UI = {
     if (!grid) return;
     grid.innerHTML = DATA.categories.map(c => `
       <div class="cat-card" data-category="${c.id}">
-        <div class="icon" style="background-image:url('${c.image}')"></div>
+        <div class="icon" style="background-image:url('${c.image}'); background: ${c.fallback}; background-blend-mode: overlay;" 
+             onerror="this.style.backgroundImage='none';"></div>
         <div class="name">${c.name}</div>
       </div>
     `).join('');
@@ -956,11 +830,11 @@ const Chatbot = {
     }
     if (t === 'ofertas') {
       const items = DATA.products.filter(p => p.badge && p.badge.includes('%'));
-      return { text: '⚡ **Ofertas Relámpago**\n\n' + items.map(p => '🔥 ' + p.name + '\n💚 $' + p.price.toLocaleString() + ' ❌ $' + p.oldPrice.toLocaleString()).join('\n\n'), replies: [{label:'Ver catálogo', cmd:'catalogo'},{label:'Agregar al carrito', cmd:'carrito'}] };
+      return { text: '⚡ **Ofertas Relámpago**\n\n' + items.map(p => ' ' + p.name + '\n💚 $' + p.price.toLocaleString() + ' ❌ $' + p.oldPrice.toLocaleString()).join('\n\n'), replies: [{label:'Ver catálogo', cmd:'catalogo'},{label:'Agregar al carrito', cmd:'carrito'}] };
     }
     if (t === 'pedidos') {
       const keys = Object.keys(DATA.orders);
-      return { text: '📦 **Mis Pedidos**\n\n' + keys.map(k => { const o = DATA.orders[k]; return 'Pedido #' + k + ' — ' + o.status + '\nTotal: $' + o.total.toLocaleString(); }).join('\n\n'), replies: [{label:'Rastrear #1002', cmd:'track:1002'},{label:'Inicio', cmd:'hola'}] };
+      return { text: ' **Mis Pedidos**\n\n' + keys.map(k => { const o = DATA.orders[k]; return 'Pedido #' + k + ' — ' + o.status + '\nTotal: $' + o.total.toLocaleString(); }).join('\n\n'), replies: [{label:'Rastrear #1002', cmd:'track:1002'},{label:'Inicio', cmd:'hola'}] };
     }
     if (t.startsWith('track:')) {
       const num = t.split(':')[1];
@@ -979,7 +853,7 @@ const Chatbot = {
       const id = parseInt(t.split(':')[1]);
       const p = DATA.products.find(x => x.id === id);
       if (!p) return { text: '❌ Producto no encontrado.', replies: [{label:'Catálogo', cmd:'catalogo'}] };
-      return { text: '📦 **' + p.name + '**\n🏷️ ' + p.brand + '\n💚 $' + p.price.toLocaleString() + '\n⭐ ' + p.rating + '/5\n📦 ' + p.stock + ' disponibles', replies: [{label:'Agregar al carrito', cmd:'add:'+id},{label:'Comprar ahora', cmd:'buy:'+id},{label:'Volver', cmd:'catalogo'}] };
+      return { text: '📦 **' + p.name + '**\n🏷️ ' + p.brand + '\n $' + p.price.toLocaleString() + '\n⭐ ' + p.rating + '/5\n📦 ' + p.stock + ' disponibles', replies: [{label:'Agregar al carrito', cmd:'add:'+id},{label:'Comprar ahora', cmd:'buy:'+id},{label:'Volver', cmd:'catalogo'}] };
     }
     if (t.startsWith('add:')) {
       const id = parseInt(t.split(':')[1]);
@@ -1011,7 +885,7 @@ const Chatbot = {
       return { text: ' **Política de Devoluciones y Garantías**\n\n✅ Devoluciones hasta 30 días con factura\n✅ Producto sin usar y empaque original\n✅ Reembolso en 5-7 días hábiles\n\n🛡️ **Garantías:**\n• Herramientas: 1-2 años\n• Electrodomésticos: 1 año\n• Muebles: 6 meses', replies: [{label:'Iniciar devolución', cmd:'asesor'},{label:'Inicio', cmd:'hola'}] };
     }
     if (t === 'envio' || t === 'envío') {
-      return { text: '🚚 **Información de Envíos**\n\n✅ Envío gratis en compras > $199.900\n📍 Envío estándar: 3-5 días ($15.900)\n⚡ Envío express: 24-48h ($29.900)\n🏪 Recogida en tienda: GRATIS', replies: [{label:'Rastrear pedido', cmd:'pedidos'},{label:'Inicio', cmd:'hola'}] };
+      return { text: '🚚 **Información de Envíos**\n\n✅ Envío gratis en compras > $199.900\n Envío estándar: 3-5 días ($15.900)\n⚡ Envío express: 24-48h ($29.900)\n🏪 Recogida en tienda: GRATIS', replies: [{label:'Rastrear pedido', cmd:'pedidos'},{label:'Inicio', cmd:'hola'}] };
     }
 
     // Fuzzy search fallback
@@ -1024,7 +898,6 @@ const Chatbot = {
   }
 };
 
-// ==================== CHAT UI ====================
 const ChatUI = {
   toggle() {
     APP.chatOpen = !APP.chatOpen;
@@ -1081,7 +954,6 @@ const ChatUI = {
   }
 };
 
-// ==================== EVENT DELEGATION ====================
 document.addEventListener('click', (e) => {
   const el = e.target.closest('[data-nav]') ||
              e.target.closest('[data-category]') ||
@@ -1117,35 +989,31 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// Enter key
 document.addEventListener('keydown', (e) => {
   if (e.key !== 'Enter') return;
   if (e.target.id === 'chatInput') { ChatUI.send(e.target.value); e.target.value = ''; }
   if (e.target.id === 'mainSearch') { const q = e.target.value; if(q.trim()) Router.navigate('search', {query:q}); }
 });
 
-// Pay method toggle
 document.addEventListener('change', (e) => {
   if (e.target.id === 'checkPayMethod') {
     document.getElementById('cardFields').style.display = e.target.value === 'efectivo' || e.target.value === 'nequi' ? 'none' : 'block';
   }
 });
 
-// ==================== INIT ====================
 function init() {
   UI.renderCategories();
   UI.renderFlash();
   UI.renderFeatured();
   Cart.updateCount();
 
-  // Countdown
   const update = () => {
     const now = new Date();
     const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
     const diff = Math.max(0, end - now);
     const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
     const el = document.getElementById('countdown');
-    if(el) el.textContent = '⏰ ' + String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    if(el) el.textContent = ' ' + String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
   };
   update(); setInterval(update, 1000);
 }
